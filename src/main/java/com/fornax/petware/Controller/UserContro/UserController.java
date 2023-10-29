@@ -16,6 +16,11 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    @GetMapping("hello")
+    public String hello() {
+        return "hello world";
+    }
+
     @GetMapping("users")
     public List<User> getAllUser() {
         return userRepository.findAll();

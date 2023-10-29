@@ -9,7 +9,7 @@ import jakarta.persistence.*;
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long id_pet;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_fk")
     @JsonBackReference
