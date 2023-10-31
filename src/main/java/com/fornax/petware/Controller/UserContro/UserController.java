@@ -3,12 +3,11 @@ package com.fornax.petware.Controller.UserContro;
 import com.fornax.petware.Entity.UserPackage.User;
 import com.fornax.petware.Repository.UserRepo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -29,5 +28,25 @@ public class UserController {
     @PostMapping("user")
     public User addUser(@RequestBody User user) {
         return userRepository.save(user);
+    }
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable(value = "id") Long id) {
+        userRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("user/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long id,
+                                               @RequestBody User perfilUpdate) {
+
+        Optional<User> user = userRepository.findById(id);
+
+        user.get().setEmail(perfilUpdate.getEmail());
+        user.get().setName(perfilUpdate.getName());
+        user.get().setPassword(user.get().getPassword());
+        user.get().setPhone(user.get().getPassword());
+
+        User updatedUser = userRepository.save(user.get());
+        return ResponseEntity.ok(updatedUser);
     }
 }
