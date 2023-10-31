@@ -5,13 +5,13 @@ import com.fornax.petware.Entity.UserPackage.User;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "pet")
+@Table(name = "pets")
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id_pet;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_fk")
+    @JoinColumn(name="user")
     @JsonBackReference
     private User user;
 
