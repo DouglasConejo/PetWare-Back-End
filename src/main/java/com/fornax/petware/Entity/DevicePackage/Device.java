@@ -1,6 +1,13 @@
 package com.fornax.petware.Entity.DevicePackage;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fornax.petware.Entity.GeofencesPackages.Geofences;
+import com.fornax.petware.Entity.UserPackage.User;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "device")
@@ -15,6 +22,10 @@ public class Device {
     private String ubication;
 
     private String coordinates;
+
+    @OneToMany(mappedBy = "device_conector",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    List<Geofences> geofences = new ArrayList<>();
 
     public Device() {
     }
