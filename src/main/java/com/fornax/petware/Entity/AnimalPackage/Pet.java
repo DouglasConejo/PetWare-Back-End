@@ -6,12 +6,14 @@ import com.fornax.petware.Entity.DevicePackage.Device;
 import com.fornax.petware.Entity.Pet_History.PetHistory;
 import com.fornax.petware.Entity.UserPackage.User;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Proxy;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
+@Proxy(lazy = false)
 @Table(name = "pets")
 public class Pet {
     @Id
@@ -45,14 +47,13 @@ public class Pet {
     public Pet() {
     }
 
-    public Pet(long id_pet, User user, String name, String specie, String breed, Date date, Device device) {
+    public Pet(long id_pet, User user, String name, String specie, String breed, Date date) {
         this.id = id_pet;
         this.user = user;
         this.name = name;
         this.specie = specie;
         this.breed = breed;
         this.date = date;
-        this.device=device;
     }
 
     public long getId() {
@@ -103,11 +104,4 @@ public class Pet {
         this.date = date;
     }
 
-    public Device getDevice() {
-        return device;
-    }
-
-    public void setDevice(Device device) {
-        this.device = device;
-    }
 }
