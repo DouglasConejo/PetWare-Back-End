@@ -19,6 +19,7 @@ public class Quote {
 
     private String reason;
 
+    @Column(name = "phone_call")
     private String call;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_fk")
