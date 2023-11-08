@@ -1,8 +1,13 @@
 package com.fornax.petware.Entity.GeofencesPackages;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fornax.petware.Entity.DevicePackage.Device;
 import com.fornax.petware.Entity.UserPackage.User;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "geofences")
@@ -16,6 +21,14 @@ public class Geofences {
 
     private String coordinate;
 
+
+    //Uno a muchos relacion a sensor
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_devince")
+    @JsonBackReference
+    private Device device_conector;
+
+    //Uno a muchos relacion a Geocerca
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user")
     @JsonBackReference

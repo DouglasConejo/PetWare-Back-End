@@ -21,6 +21,7 @@ public class Pet_HistoryController {
         return pet_historyRepository.findAll();
     }
 
+
     @PostMapping("pet_history")
     public PetHistory addHistoryPet(@RequestBody PetHistory petHistory) {
         return pet_historyRepository.save(petHistory);

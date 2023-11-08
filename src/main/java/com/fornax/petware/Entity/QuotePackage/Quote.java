@@ -9,20 +9,21 @@ import java.util.Date;
 
 
 @Entity
-@Table(name = "quotes")
+@Table(name = "quote")
 public class Quote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "date")
     private Date date;
-
+    @Column(name = "reason")
     private String reason;
 
     @Column(name = "phone_call")
     private String call;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_fk")
+    @JoinColumn(name="id_user")
     @JsonBackReference
     private User quotes;
 
@@ -30,6 +31,7 @@ public class Quote {
     }
 
     public Quote(long id, Date date, String reason, String call, User quotes) {
+        super();
         this.id = id;
         this.date = date;
         this.reason = reason;

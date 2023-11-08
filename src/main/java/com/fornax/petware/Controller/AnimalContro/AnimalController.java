@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin("*")
 public class AnimalController {
 
     @Autowired
@@ -20,6 +21,12 @@ public class AnimalController {
     public List<Pet> getAllPet() {
         return animalRepository.findAll();
     }
+
+    @GetMapping("/petsData")
+    public List<Object[]> getPetData() {
+        return animalRepository.findPetData();
+    }
+
 
     @GetMapping("pets/{id}")
     public Optional<Pet> getPet(@PathVariable(value = "id") Long id) {
