@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface AnimalRepository extends JpaRepository<Pet, Long> {
 
-    @Query("SELECT p.name, p.breed, p.date, p.specie FROM Pet p")
+    @Query("SELECT p.name, p.breed, p.date, p.specie  FROM Pet p")
     List<Object[]> findPetData();
+
+
 }

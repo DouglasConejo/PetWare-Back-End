@@ -3,14 +3,12 @@ package com.fornax.petware.Controller.Pet_HistoryContro;
 import com.fornax.petware.Entity.Pet_History.PetHistory;
 import com.fornax.petware.Repository.Pet_HistoryRepo.Pet_HistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 public class Pet_HistoryController {
 
     @Autowired
