@@ -23,17 +23,17 @@ jobs:
                 username: jeremypetware@gmail.com
                 password: dckr_pat_hB0uTNMYPw-Nm8i-ywy8eeVKuME
             - name: Build docker image
-              run: docker build -t petware/api-backend .
+              run: docker build -t jeremypetware/petware .
             - name: Publish Image to dockerhub
-              run: docker push petware/api-backend:latest
+              run: docker push jeremypetware/petware:latest
     
     deploy:
         needs: build
         runs-on: [aws-ec2-runner]
         steps:
             - name: Pull image from docker hub
-              run: docker pull petware/api-backend:latest
+              run: docker pull jeremypetware/petware:latest
             - name: Delete old container
               run: docker rm -f petware-backend-container
             - name: Run docker container
-              run: docker run -d -p 8080:8080 --name petware-backend-container petware/api-backend
+              run: docker run -d -p 8080:8080 --name petware-backend-container jeremypetware/petware
