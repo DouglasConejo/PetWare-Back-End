@@ -21,7 +21,7 @@ jobs:
               uses: docker/login-action@v3
               with:
                 username: jeremypetware@gmail.com
-                password: Mad3inchin@
+                password: dckr_pat_hB0uTNMYPw-Nm8i-ywy8eeVKuME
             - name: Build docker image
               run: docker build -t petware/api-backend .
             - name: Publish Image to dockerhub
