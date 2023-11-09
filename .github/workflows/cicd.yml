@@ -18,7 +18,7 @@ jobs:
             - name: Build Project
               run: mvn clean install -DskipTests
             - name: Login to docker hub
-              run: docker login -u ${{secrets.DOCKERHUB_USER}} -p ${{secrets.DOCKERHUB_PASSWORD}}
+              run: docker login -u ${{secrets.DOCKERHUB_USER}} --password-stdin ${{secrets.DOCKERHUB_PASSWORD}}
             - name: Build docker image
               run: docker build -t petware/api-backend .
             - name: Publish Image to dockerhub
