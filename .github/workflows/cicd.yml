@@ -20,7 +20,7 @@ jobs:
             - name: Login to docker hub
               uses: docker/login-action@v3
               with:
-                username: JeremyPetware
+                username: jeremypetware@gmail.com
                 password: Mad3inchin@
             - name: Build docker image
               run: docker build -t petware/api-backend .
