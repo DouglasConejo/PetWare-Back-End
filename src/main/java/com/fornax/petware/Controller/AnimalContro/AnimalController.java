@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,10 +31,19 @@ public class AnimalController {
     }
 
     @GetMapping("/user/{userId}/pets")
-    public List<Object[]> getPets(@PathVariable Long userId) {
-
-        return animalRepository.findPetDataByUser(userId);
-
+    public List<Pet> getPets(@PathVariable Long userId) {
+        List<String[]> queryResponse = animalRepository.findPetDataByUser(userId);
+        ArrayList<Pet> pets = new ArrayList<>();
+        queryResponse.forEach(p -> {
+            Pet pet = new Pet();
+            pet.setId(Long.parseLong(p[0]));
+            pet.setName(p[1]);
+            pet.setBreed(p[2]);
+            pet.setDate(new Date()); // pet[3] string -> date
+            pet.setSpecie(p[4]);
+            pets.add(pet);
+        });
+        return pets;
     }
 
 

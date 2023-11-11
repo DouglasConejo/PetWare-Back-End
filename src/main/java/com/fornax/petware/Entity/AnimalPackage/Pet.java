@@ -47,6 +47,14 @@ public class Pet {
     public Pet() {
     }
 
+    public Pet(long id_pet, String name, String specie, String breed, Date date) {
+        this.id = id_pet;
+        this.name = name;
+        this.specie = specie;
+        this.breed = breed;
+        this.date = date;
+    }
+
     public Pet(long id_pet, User user, String name, String specie, String breed, Date date) {
         this.id = id_pet;
         this.user = user;
