@@ -1,5 +1,6 @@
 package com.fornax.petware.Controller.UserContro;
 
+import com.fornax.petware.Entity.UserPackage.Role;
 import com.fornax.petware.Entity.UserPackage.User;
 import com.fornax.petware.Repository.UserRepo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,31 @@ public class UserController {
     public List<User> getAllUser() {
         return userRepository.findAll();
     }
+    @PostMapping("/authenticate")
+    public String authenticate(@RequestParam String email, @RequestParam String password) {
 
+        User user = userRepository.findByEmail(email);
+
+        if(user == null || !user.getPassword().equals(password)) {
+            return "redirect:/login";
+        }
+
+        Role userRole = user.getRole();
+
+        if(userRole == Role.SuperAdmin) {
+            return "redirect:/superAdmin";
+        }
+        else if(userRole == Role.Vet) {
+            return "redirect:/vet";
+        }
+        else if(userRole == Role.User) {
+            return "redirect:/user";
+        }
+        else {
+            return "redirect:/login";
+        }
+
+    }
     @PostMapping("user")
     public User addUser(@RequestBody User user) {
         return userRepository.save(user);
@@ -35,6 +60,7 @@ public class UserController {
         userRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
 
     @PutMapping("user/{id}")
     public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long id,

@@ -27,6 +27,13 @@ public class AnimalController {
         return animalRepository.findPetData();
     }
 
+    @GetMapping("/user/{userId}/pets")
+    public List<Object[]> getPets(@PathVariable Long userId) {
+
+        return animalRepository.findPetDataByUser(userId);
+
+    }
+
 
     @GetMapping("pets/{id}")
     public Optional<Pet> getPet(@PathVariable(value = "id") Long id) {

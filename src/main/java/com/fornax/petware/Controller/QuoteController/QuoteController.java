@@ -22,6 +22,12 @@ public class QuoteController {
         return quoteRepository.findAll();
     }
 
+    @GetMapping("/users/{userId}/quotes")
+    public List<Object[]> getUserQuotes(@PathVariable Long userId) {
+        return quoteRepository.findQuotesByUser(userId);
+
+    }
+
     @GetMapping("quote/{id}")
     public Optional<Quote> getPet(@PathVariable(value = "id") Long id) {
         return quoteRepository.findById(id);
