@@ -1,6 +1,5 @@
 package com.fornax.petware.Controller.GeofenceContro;
 
-import com.fornax.petware.Entity.AnimalPackage.Pet;
 import com.fornax.petware.Entity.GeofencesPackages.Geofences;
 import com.fornax.petware.Repository.GeofencesRepo.GeofenceRepo;
 import org.springframework.beans.factory.annotation.Autowired;

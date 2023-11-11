@@ -2,7 +2,9 @@ package com.fornax.petware.Entity.GeofencesPackages;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fornax.petware.Entity.CoordinatesPackage.Coordinate;
 import com.fornax.petware.Entity.DevicePackage.Device;
+import com.fornax.petware.Entity.QuotePackage.Quote;
 import com.fornax.petware.Entity.UserPackage.User;
 import jakarta.persistence.*;
 
@@ -33,6 +35,10 @@ public class Geofences {
     @JoinColumn(name="user")
     @JsonBackReference
     private User geofence;
+
+    @OneToMany(mappedBy = "coordinates",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    List<Coordinate> coordinates = new ArrayList<>();
 
     public Geofences() {
     }

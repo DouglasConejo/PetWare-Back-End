@@ -12,7 +12,7 @@ public interface AnimalRepository extends JpaRepository<Pet, Long> {
     @Query("SELECT p.name, p.breed, p.date, p.specie  FROM Pet p")
     List<Object[]> findPetData();
 
-    @Query("SELECT p.id, p.name, p.breed, p.date, p.specie " +
+    @Query("SELECT p.name, p.breed, p.date, p.specie " +
             "FROM Pet p " +
             "WHERE p.user.id = :userId")
     List<String[]> findPetDataByUser(@Param("userId") Long userId);

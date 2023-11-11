@@ -1,6 +1,5 @@
 package com.fornax.petware.Controller.QuoteController;
 
-import com.fornax.petware.Entity.AnimalPackage.Pet;
 import com.fornax.petware.Entity.QuotePackage.Quote;
 import com.fornax.petware.Repository.QuoteRepo.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;

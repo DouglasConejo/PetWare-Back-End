@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -63,7 +62,7 @@ public class AnimalController {
     }
     @PutMapping("pet/{id}")
     public ResponseEntity<Pet> updatePet(@PathVariable(value = "id") Long id,
-                                           @RequestBody Pet petUpdate) {
+                                         @RequestBody Pet petUpdate) {
 
         Optional<Pet> pet = animalRepository.findById(id);
 
