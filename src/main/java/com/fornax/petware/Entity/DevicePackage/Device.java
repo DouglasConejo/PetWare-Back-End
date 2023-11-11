@@ -24,10 +24,6 @@ public class Device {
 
     private String coordinates;
 
-    @OneToMany(mappedBy = "device_conector",cascade = CascadeType.ALL)
-    @JsonManagedReference
-    List<Geofences> geofences = new ArrayList<>();
-
     @OneToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JoinColumn(name = "pet_id")
     private Pet pet;
