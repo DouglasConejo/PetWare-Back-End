@@ -26,6 +26,12 @@ public class UserController {
     public List<User> getAllUser() {
         return userRepository.findAll();
     }
+
+    @GetMapping("user/{email}")
+    public User findUserByEmail(@PathVariable(value = "email") String email) {
+        return userRepository.findByEmail(email);
+    }
+
     @PostMapping("/authenticate")
     public String authenticate(@RequestParam String email, @RequestParam String password) {
 
