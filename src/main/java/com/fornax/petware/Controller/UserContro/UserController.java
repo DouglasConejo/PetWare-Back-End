@@ -28,36 +28,16 @@ public class UserController {
     }
 
     @GetMapping("user/{email}")
-    public User findUserByEmail(@PathVariable(value = "email") String email) {
-        return userRepository.findByEmail(email);
+    public ResponseEntity<User> findUserByEmail(@PathVariable(value = "email") String email) {
+        Optional<User> user = Optional.ofNullable(userRepository.findByEmail(email));
+
+        if (user.isPresent()) {
+            return ResponseEntity.ok().body(user.get());
+        }
+        return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/authenticate")
-    public String authenticate(@RequestParam String email, @RequestParam String password) {
-
-        User user = userRepository.findByEmail(email);
-
-        if(user == null || !user.getPassword().equals(password)) {
-            return "redirect:/login";
-        }
-
-        Role userRole = user.getRole();
-
-        if(userRole == Role.SuperAdmin) {
-            return "redirect:/superAdmin";
-        }
-        else if(userRole == Role.Vet) {
-            return "redirect:/vet";
-        }
-        else if(userRole == Role.User) {
-            return "redirect:/user";
-        }
-        else {
-            return "redirect:/login";
-        }
-
-    }
-    @PostMapping("user")
+    @PostMapping(value = "user", consumes = {"application/json"})
     public User addUser(@RequestBody User user) {
         return userRepository.save(user);
     }

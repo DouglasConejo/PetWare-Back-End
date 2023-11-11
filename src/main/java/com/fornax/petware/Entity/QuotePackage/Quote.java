@@ -24,7 +24,7 @@ public class Quote {
     private String call;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_user")
-    @JsonBackReference
+    @JsonBackReference("user-quotes")
     private User quotes;
 
     public Quote() {

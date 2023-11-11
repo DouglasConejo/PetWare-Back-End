@@ -25,23 +25,23 @@ public class Geofences {
     //Uno a muchos relacion a sensor
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_devince")
-    @JsonBackReference
+    @JsonBackReference()
     private Device device_conector;
 
     //Uno a muchos relacion a Geocerca
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user")
-    @JsonBackReference
-    private User geofence;
+    @JsonBackReference(value = "user-geofences")
+    private User user;
 
     public Geofences() {
     }
 
-    public Geofences(long ID, String name, String coordinate, User geofence) {
+    public Geofences(long ID, String name, String coordinate, User user) {
         this.id = ID;
         this.name = name;
         this.coordinate = coordinate;
-        this.geofence = geofence;
+        this.user = user;
     }
 
     public long getId() {
@@ -68,11 +68,11 @@ public class Geofences {
         this.coordinate = coordinate;
     }
 
-    public User getGeofence() {
-        return geofence;
+    public User getUser() {
+        return user;
     }
 
-    public void setGeofence(User geofence) {
-        this.geofence = geofence;
+    public void setUser(User geofence) {
+        this.user = geofence;
     }
 }
