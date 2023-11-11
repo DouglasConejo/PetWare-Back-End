@@ -13,7 +13,6 @@ import java.util.List;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name")
@@ -34,17 +33,17 @@ public class User {
 
     //Uno a muchos relacion a mascota
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value="user-pets")
     List<Pet> pet = new ArrayList<>();
 
     //Uno a muchos relacion a citas
     @OneToMany(mappedBy = "quotes",cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "user-quotes")
     List<Quote> quotes = new ArrayList<>();
 
     //Uno a muchos relacion a Geocercas
-    @OneToMany(mappedBy = "geofence",cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "user-geofences")
     List<Geofences> geofences = new ArrayList<>();
 
     public User() {

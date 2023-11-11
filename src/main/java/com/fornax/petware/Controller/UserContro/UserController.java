@@ -26,32 +26,18 @@ public class UserController {
     public List<User> getAllUser() {
         return userRepository.findAll();
     }
-    @PostMapping("/authenticate")
-    public String authenticate(@RequestParam String email, @RequestParam String password) {
 
-        User user = userRepository.findByEmail(email);
+    @GetMapping("user/{email}")
+    public ResponseEntity<User> findUserByEmail(@PathVariable(value = "email") String email) {
+        Optional<User> user = Optional.ofNullable(userRepository.findByEmail(email));
 
-        if(user == null || !user.getPassword().equals(password)) {
-            return "redirect:/login";
+        if (user.isPresent()) {
+            return ResponseEntity.ok().body(user.get());
         }
-
-        Role userRole = user.getRole();
-
-        if(userRole == Role.SuperAdmin) {
-            return "redirect:/superAdmin";
-        }
-        else if(userRole == Role.Vet) {
-            return "redirect:/vet";
-        }
-        else if(userRole == Role.User) {
-            return "redirect:/user";
-        }
-        else {
-            return "redirect:/login";
-        }
-
+        return ResponseEntity.notFound().build();
     }
-    @PostMapping("user")
+
+    @PostMapping(value = "user", consumes = {"application/json"})
     public User addUser(@RequestBody User user) {
         return userRepository.save(user);
     }

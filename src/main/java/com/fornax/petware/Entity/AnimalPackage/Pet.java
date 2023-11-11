@@ -23,8 +23,7 @@ public class Pet {
     //Id_user
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user")
-    @JsonBackReference
-
+    @JsonBackReference(value = "user-pets")
     private User user;
 
 
