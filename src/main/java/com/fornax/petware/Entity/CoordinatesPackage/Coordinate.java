@@ -19,9 +19,9 @@ public class Coordinate {
 
     private float lat;
 
-    private float ing;
+    private float lng;
 
-    @Column(columnDefinition = "int")
+    @Column(name = "order_num", columnDefinition = "int")
     private int orderNum;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,10 +32,10 @@ public class Coordinate {
     public Coordinate() {
     }
 
-    public Coordinate(long id, float lat, float ing, int orderNum, Geofences geofence) {
+    public Coordinate(long id, float lat, float lng, int orderNum, Geofences geofence) {
         this.id = id;
         this.lat = lat;
-        this.ing = ing;
+        this.lng = lng;
         this.orderNum = orderNum;
         this.coordinates = geofence;
     }
@@ -57,20 +57,18 @@ public class Coordinate {
     }
 
     public float getIng() {
-        return ing;
+        return lng;
     }
 
-    public void setIng(float ing) {
-        this.ing = ing;
+    public void setLng(float lng) {
+        this.lng = lng;
     }
 
-    public int getOrder() {
+    public int getOrderNum() {
         return orderNum;
     }
 
-    public void setOrder(int orderNum) {
+    public void setOrderNum(int orderNum) {
         this.orderNum = orderNum;
     }
-
-
 }

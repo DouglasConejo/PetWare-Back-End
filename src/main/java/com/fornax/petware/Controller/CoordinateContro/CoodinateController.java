@@ -32,9 +32,9 @@ public class CoodinateController {
         queryResponse.forEach(p -> {
             Coordinate coordinate = new Coordinate();
             coordinate.setId(Long.parseLong(p[0]));
-            coordinate.setIng(Float.parseFloat(p[1]));
+            coordinate.setLng(Float.parseFloat(p[1]));
             coordinate.setLat(Float.parseFloat(p[2]));
-            coordinate.setOrder(Integer.parseInt(p[4]));
+            coordinate.setOrderNum(Integer.parseInt(p[4]));
             coordinates.add(coordinate);
         });
         return coordinates;
@@ -61,9 +61,9 @@ public class CoodinateController {
 
         Optional<Coordinate> coordinate = coordinateRepository.findById(id);
 
-        coordinate.get().setOrder(coordinateUpdate.getOrder());
+        coordinate.get().setOrderNum(coordinateUpdate.getOrderNum());
         coordinate.get().setLat(coordinateUpdate.getLat());
-        coordinate.get().setIng(coordinateUpdate.getIng());
+        coordinate.get().setLng(coordinateUpdate.getIng());
         Coordinate updatedCoordinate = coordinateRepository.save(coordinate.get());
         return ResponseEntity.ok(updatedCoordinate);
     }

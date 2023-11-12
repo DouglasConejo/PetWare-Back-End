@@ -47,7 +47,6 @@ public class GeofenceController {
         Optional<Geofences> geofences = geofenceRepo.findById(id);
 
         geofences.get().setName(geofenceUpdate.getName());
-        geofences.get().setCoordinate(geofenceUpdate.getCoordinate());
         Geofences updatedGeofences = geofenceRepo.save(geofences.get());
         return ResponseEntity.ok(updatedGeofences);
     }

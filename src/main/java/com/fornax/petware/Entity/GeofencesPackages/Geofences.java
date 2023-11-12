@@ -21,7 +21,7 @@ public class Geofences {
 
     private String name;
 
-    private String coordinate;
+    private String color;
 
 
     //Uno a muchos relacion a Geocerca
@@ -37,10 +37,10 @@ public class Geofences {
     public Geofences() {
     }
 
-    public Geofences(long ID, String name, String coordinate, User user) {
+    public Geofences(long ID, String name, String color, User user) {
         this.id = ID;
         this.name = name;
-        this.coordinate = coordinate;
+        this.color = color;
         this.user = user;
     }
 
@@ -60,13 +60,6 @@ public class Geofences {
         this.name = name;
     }
 
-    public String getCoordinate() {
-        return coordinate;
-    }
-
-    public void setCoordinate(String coordinate) {
-        this.coordinate = coordinate;
-    }
 
     public User getUser() {
         return user;
@@ -74,5 +67,13 @@ public class Geofences {
 
     public void setUser(User geofence) {
         this.user = geofence;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getColor() {
+        return color;
     }
 }
