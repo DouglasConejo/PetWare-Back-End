@@ -23,8 +23,7 @@ public class Pet {
     //Id_user
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user")
-    @JsonBackReference
-
+    @JsonBackReference(value = "user-pets")
     private User user;
 
 
@@ -45,6 +44,14 @@ public class Pet {
     private Date date;
 
     public Pet() {
+    }
+
+    public Pet(long id_pet, String name, String specie, String breed, Date date) {
+        this.id = id_pet;
+        this.name = name;
+        this.specie = specie;
+        this.breed = breed;
+        this.date = date;
     }
 
     public Pet(long id_pet, User user, String name, String specie, String breed, Date date) {

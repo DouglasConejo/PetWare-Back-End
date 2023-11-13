@@ -1,6 +1,5 @@
 package com.fornax.petware.Controller.QuoteController;
 
-import com.fornax.petware.Entity.AnimalPackage.Pet;
 import com.fornax.petware.Entity.QuotePackage.Quote;
 import com.fornax.petware.Repository.QuoteRepo.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,12 @@ public class QuoteController {
     @GetMapping("Quotes")
     public List<Quote> getAllPet() {
         return quoteRepository.findAll();
+    }
+
+    @GetMapping("/users/{userId}/quotes")
+    public List<Object[]> getUserQuotes(@PathVariable Long userId) {
+        return quoteRepository.findQuotesByUser(userId);
+
     }
 
     @GetMapping("quote/{id}")

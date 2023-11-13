@@ -2,6 +2,7 @@ package com.fornax.petware.Entity.DevicePackage;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fornax.petware.Entity.AnimalPackage.Pet;
 import com.fornax.petware.Entity.GeofencesPackages.Geofences;
 import com.fornax.petware.Entity.UserPackage.User;
 import jakarta.persistence.*;
@@ -23,9 +24,9 @@ public class Device {
 
     private String coordinates;
 
-    @OneToMany(mappedBy = "device_conector",cascade = CascadeType.ALL)
-    @JsonManagedReference
-    List<Geofences> geofences = new ArrayList<>();
+    @OneToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    @JoinColumn(name = "pet_id")
+    private Pet pet;
 
     public Device() {
     }
