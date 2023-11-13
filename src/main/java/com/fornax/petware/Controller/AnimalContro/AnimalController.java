@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,8 +31,11 @@ public class AnimalController {
 
 
     @GetMapping("pets/{id}")
-    public Optional<Pet> getPet(@PathVariable(value = "id") Long id) {
-        return animalRepository.findById(id);
+    public
+    Optional<Pet> getPet(@PathVariable(value = "id") Long id) {
+
+        Optional<Pet> queryResponse = animalRepository.findById(id);
+        return queryResponse;
     }
 
     @PostMapping("pets")
@@ -42,6 +47,22 @@ public class AnimalController {
         animalRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
+    @GetMapping("/user/{userId}/pets")
+    public List<Pet> getPetByUser(@PathVariable Long userId) {
+        List<String[]> queryResponse = animalRepository.findPetDataByUser(userId);
+        ArrayList<Pet> pets = new ArrayList<>();
+        queryResponse.forEach(p -> {
+            Pet pet = new Pet();
+            pet.setId(Long.parseLong(p[0]));
+            pet.setName(p[1]);
+            pet.setBreed(p[2]);
+            pet.setDate(new Date()); // pet[3] string -> date
+            pet.setSpecie(p[4]);
+            pets.add(pet);
+        });
+        return pets;
+    }
+
     @PutMapping("pet/{id}")
     public ResponseEntity<Pet> updatePet(@PathVariable(value = "id") Long id,
                                            @RequestBody Pet petUpdate) {
