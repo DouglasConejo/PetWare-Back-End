@@ -49,8 +49,7 @@ public class UserController {
 
 
     @PutMapping("user/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long id,
-                                               @RequestBody User perfilUpdate) {
+    public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long id, @RequestBody User perfilUpdate) {
 
         Optional<User> user = userRepository.findById(id);
 
