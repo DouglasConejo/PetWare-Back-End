@@ -28,7 +28,7 @@ public class Pet {
 
 
     @OneToMany(mappedBy = "petHistory",cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "pet-petHistory")
     List<PetHistory> petHistories = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)

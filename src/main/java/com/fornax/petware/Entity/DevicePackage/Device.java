@@ -3,6 +3,7 @@ package com.fornax.petware.Entity.DevicePackage;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fornax.petware.Entity.AnimalPackage.Pet;
+import com.fornax.petware.Entity.CoordinatesPackage.Coordinate;
 import com.fornax.petware.Entity.GeofencesPackages.Geofences;
 import com.fornax.petware.Entity.UserPackage.User;
 import jakarta.persistence.*;
@@ -22,20 +23,23 @@ public class Device {
 
     private String ubication;
 
-    private String coordinates;
 
     @OneToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JoinColumn(name = "pet_id")
     private Pet pet;
 
+    @OneToMany(mappedBy = "device",cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "device-coordinates")
+    List<Coordinate> coordinate = new ArrayList<>();
+
     public Device() {
     }
 
-    public Device(long id, int serialNumber, String ubication, String coordinates) {
+    public Device(long id, int serialNumber, String ubication ) {
         this.id = id;
         this.serialNumber = serialNumber;
         this.ubication = ubication;
-        this.coordinates = coordinates;
+
     }
 
     public long getId() {
@@ -62,11 +66,4 @@ public class Device {
         this.ubication = ubication;
     }
 
-    public String getCoordinates() {
-        return coordinates;
-    }
-
-    public void setCoordinates(String coordinates) {
-        this.coordinates = coordinates;
-    }
 }
