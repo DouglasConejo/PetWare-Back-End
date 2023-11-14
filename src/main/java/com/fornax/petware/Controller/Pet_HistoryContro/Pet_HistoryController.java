@@ -1,11 +1,14 @@
 package com.fornax.petware.Controller.Pet_HistoryContro;
 
+import com.fornax.petware.Entity.AnimalPackage.Pet;
 import com.fornax.petware.Entity.Pet_History.PetHistory;
 import com.fornax.petware.Repository.Pet_HistoryRepo.Pet_HistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -31,10 +34,19 @@ public class Pet_HistoryController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/pets/{petId}/histories")
-    public List<Object[]> getPetHistories(@PathVariable Long petId) {
-
-        return pet_historyRepository.findByPetId(petId);
-
+    @GetMapping("/petHistory/{petId}/pets")
+    public List<PetHistory> getPetsIdHistory(@PathVariable Long petId) {
+        List<String[]> queryResponse = pet_historyRepository.findByPetId(petId);
+        ArrayList<PetHistory> petHistories = new ArrayList<>();
+        queryResponse.forEach(p -> {
+            PetHistory petHistory = new PetHistory();
+            petHistory.setId(Long.parseLong(p[0]));
+            petHistory.setHeight(p[1]);
+            petHistory.setTemperature(p[2]);
+            petHistory.setDate(new Date()); // pet[3] string -> date
+            petHistory.setWeight(p[4]);
+            petHistories.add(petHistory);
+        });
+        return petHistories;
     }
 }

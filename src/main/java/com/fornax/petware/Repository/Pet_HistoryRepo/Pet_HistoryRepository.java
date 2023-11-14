@@ -11,6 +11,6 @@ public interface Pet_HistoryRepository extends JpaRepository<PetHistory, Long> {
     @Query("SELECT ph.height, ph.temperature, ph.date, ph.weight " +
             "FROM PetHistory ph " +
             "WHERE ph.petHistory.id = :petId")
-    List<Object[]>  findByPetId(@Param("petId") Long petId);
+    List<String[]>  findByPetId(@Param("petId") Long petId);
 
 }
