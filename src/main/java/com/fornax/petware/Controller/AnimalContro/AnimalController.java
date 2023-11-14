@@ -29,6 +29,22 @@ public class AnimalController {
         return animalRepository.findPetData();
     }
 
+    @GetMapping("/user/{userId}/pets")
+    public List<Pet> getPets(@PathVariable Long userId) {
+        List<String[]> queryResponse = animalRepository.findPetDataByUser(userId);
+        ArrayList<Pet> pets = new ArrayList<>();
+        queryResponse.forEach(p -> {
+            Pet pet = new Pet();
+            pet.setId(Long.parseLong(p[0]));
+            pet.setName(p[1]);
+            pet.setBreed(p[2]);
+            pet.setDate(new Date()); // pet[3] string -> date
+            pet.setSpecie(p[4]);
+            pets.add(pet);
+        });
+        return pets;
+    }
+
 
     @GetMapping("pets/{id}")
     public
@@ -65,7 +81,7 @@ public class AnimalController {
 
     @PutMapping("pet/{id}")
     public ResponseEntity<Pet> updatePet(@PathVariable(value = "id") Long id,
-                                           @RequestBody Pet petUpdate) {
+                                         @RequestBody Pet petUpdate) {
 
         Optional<Pet> pet = animalRepository.findById(id);
 

@@ -1,5 +1,6 @@
 package com.fornax.petware.Controller.UserContro;
 
+import com.fornax.petware.Entity.UserPackage.Role;
 import com.fornax.petware.Entity.UserPackage.User;
 import com.fornax.petware.Repository.UserRepo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,17 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @PostMapping("user")
+    @GetMapping("user/{email}")
+    public ResponseEntity<User> findUserByEmail(@PathVariable(value = "email") String email) {
+        Optional<User> user = Optional.ofNullable(userRepository.findByEmail(email));
+
+        if (user.isPresent()) {
+            return ResponseEntity.ok().body(user.get());
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping(value = "user", consumes = {"application/json"})
     public User addUser(@RequestBody User user) {
         return userRepository.save(user);
     }
@@ -35,6 +46,7 @@ public class UserController {
         userRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
 
     @PutMapping("user/{id}")
     public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long id, @RequestBody User perfilUpdate) {
