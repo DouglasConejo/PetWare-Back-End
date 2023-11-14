@@ -23,6 +23,8 @@ public class Geofences {
 
     private String color;
 
+    private String description;
+
 
     //Uno a muchos relacion a Geocerca
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,11 +39,12 @@ public class Geofences {
     public Geofences() {
     }
 
-    public Geofences(long ID, String name, String color, User user) {
+    public Geofences(long ID, String name, String color, User user, String description) {
         this.id = ID;
         this.name = name;
         this.color = color;
         this.user = user;
+        this.description = description;
     }
 
     public long getId() {
@@ -75,5 +78,21 @@ public class Geofences {
 
     public String getColor() {
         return color;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Coordinate> getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(List<Coordinate> coordinates) {
+        this.coordinates = coordinates;
     }
 }

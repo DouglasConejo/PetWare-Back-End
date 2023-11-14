@@ -63,7 +63,7 @@ public class Coordinate {
         this.lat = lat;
     }
 
-    public float getIng() {
+    public float getLng() {
         return lng;
     }
 

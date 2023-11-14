@@ -63,7 +63,7 @@ public class CoodinateController {
 
         coordinate.get().setOrderNum(coordinateUpdate.getOrderNum());
         coordinate.get().setLat(coordinateUpdate.getLat());
-        coordinate.get().setLng(coordinateUpdate.getIng());
+        coordinate.get().setLng(coordinateUpdate.getLng());
         Coordinate updatedCoordinate = coordinateRepository.save(coordinate.get());
         return ResponseEntity.ok(updatedCoordinate);
     }
