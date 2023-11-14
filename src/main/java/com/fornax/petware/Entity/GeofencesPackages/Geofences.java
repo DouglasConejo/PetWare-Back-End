@@ -33,7 +33,7 @@ public class Geofences {
     private User user;
 
     @OneToMany(mappedBy = "coordinates",cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "geofence-coordinate")
     List<Coordinate> coordinates = new ArrayList<>();
 
     public Geofences() {

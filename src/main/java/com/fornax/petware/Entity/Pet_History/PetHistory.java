@@ -16,7 +16,7 @@ public class PetHistory {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_pet")
-    @JsonBackReference
+    @JsonBackReference(value = "pet-petHistory")
 
     private Pet petHistory;
 
