@@ -11,6 +11,7 @@ import org.hibernate.annotations.Proxy;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Proxy(lazy = false)
