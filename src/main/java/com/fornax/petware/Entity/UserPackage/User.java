@@ -8,12 +8,13 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-    private long id;
+    private UUID id;
 
     @Column(name = "name")
     private String name;
@@ -58,11 +59,11 @@ public class User {
         this.role = role;
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

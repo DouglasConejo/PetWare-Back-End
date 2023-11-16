@@ -3,6 +3,7 @@ package com.fornax.petware.Controller.UserContro;
 import com.fornax.petware.Entity.UserPackage.Role;
 import com.fornax.petware.Entity.UserPackage.User;
 import com.fornax.petware.Repository.UserRepo.UserRepository;
+import com.fornax.petware.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,18 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    private UserService userService;
+    @PostMapping("/add-user")
+    public User submitUser(@RequestBody User newUser){
+        User user = userService.adduser(newUser);
+        return user;
+    }
+
+    @GetMapping("all-users")
+    public List<User> getAllUsers(){
+        return userService.getAllUsers();
+    }
 
     @GetMapping("hello")
     public String hello() {
