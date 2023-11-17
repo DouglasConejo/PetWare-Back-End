@@ -37,6 +37,19 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
+
+    @GetMapping("/findByEmail/{email}")
+    public ResponseEntity<User> findUserByEmail2(@PathVariable String email) {
+        User user = userRepository.findByEmail(email);
+
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
     @PostMapping(value = "user", consumes = {"application/json"})
     public User addUser(@RequestBody User user) {
         return userRepository.save(user);
@@ -50,15 +63,21 @@ public class UserController {
 
     @PutMapping("user/{id}")
     public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long id, @RequestBody User perfilUpdate) {
+        Optional<User> optionalUser = userRepository.findById(id);
 
-        Optional<User> user = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setEmail(perfilUpdate.getEmail());
+            user.setName(perfilUpdate.getName());
+            user.setPassword(perfilUpdate.getPassword());
+            user.setPhone(perfilUpdate.getPhone());
+            user.setRole(perfilUpdate.getRole());
 
-        user.get().setEmail(perfilUpdate.getEmail());
-        user.get().setName(perfilUpdate.getName());
-        user.get().setPassword(user.get().getPassword());
-        user.get().setPhone(user.get().getPassword());
-
-        User updatedUser = userRepository.save(user.get());
-        return ResponseEntity.ok(updatedUser);
+            User updatedUser = userRepository.save(user);
+            return ResponseEntity.ok(updatedUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+
 }
