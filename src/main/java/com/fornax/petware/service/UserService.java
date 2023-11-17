@@ -17,7 +17,7 @@ public class UserService {
     }
 
     public User adduser(User user){
-        user.setId(UUID.randomUUID());
+        user.setId(1L);
         user.setName("Daniel");
         user.setPassword("Test123");
         user.setEmail("Test@gmail.com");

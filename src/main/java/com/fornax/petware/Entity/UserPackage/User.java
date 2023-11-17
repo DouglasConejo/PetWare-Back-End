@@ -14,7 +14,7 @@ import java.util.UUID;
 @Table(name = "users")
 public class User {
     @Id
-    private UUID id;
+    private long id;
 
     @Column(name = "name")
     private String name;
@@ -59,11 +59,11 @@ public class User {
         this.role = role;
     }
 
-    public UUID getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(long id) {
         this.id = id;
     }
 
