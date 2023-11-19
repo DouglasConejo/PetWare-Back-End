@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,16 +34,14 @@ public class AnimalController {
 
     @GetMapping("/user/{userId}/pets")
     public List<Pet> getPets(@PathVariable Long userId) {
-        List<Pet> pets = animalRepository.findPetDataByUser(userId);;
+        List<Pet> pets = animalRepository.findPetDataByUser(userId);
         return pets;
     }
 
     @GetMapping("pets/{id}")
     public
     Optional<Pet> getPet(@PathVariable(value = "id") Long id) {
-
-        Optional<Pet> queryResponse = animalRepository.findById(id);
-        return queryResponse;
+        return animalRepository.findById(id);
     }
 
     @PostMapping("pets")
