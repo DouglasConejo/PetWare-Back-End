@@ -54,9 +54,9 @@ public class GeofenceControllerTest {
 
     @Test
     void getUserGeofences() throws Exception {
-        when(geofenceRepo.findGeofencesByUserId(14L)).thenReturn(Arrays.asList(new Geofences(), new Geofences()));
+        when(geofenceRepo.findGeofencesByUserId(118220722L)).thenReturn(Arrays.asList(new Geofences(), new Geofences()));
 
-        mockMvc.perform(get("/geofences/user/14"))
+        mockMvc.perform(get("/geofences/user/118220722"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
     }
