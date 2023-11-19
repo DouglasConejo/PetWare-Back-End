@@ -45,7 +45,6 @@ public class AnimalController {
         return pets;
     }
 
-
     @GetMapping("pets/{id}")
     public
     Optional<Pet> getPet(@PathVariable(value = "id") Long id) {
