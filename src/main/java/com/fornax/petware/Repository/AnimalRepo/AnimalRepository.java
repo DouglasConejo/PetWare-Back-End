@@ -12,6 +12,9 @@ public interface AnimalRepository extends JpaRepository<Pet, Long> {
     @Query("SELECT p.name, p.breed, p.date, p.specie  FROM Pet p")
     List<Object[]> findPetData();
 
-    @Query("SELECT p.id, p.name, p.breed, p.date, p.specie FROM Pet p WHERE p.user.id = ?1")
-    List<String[]> findPetDataByUser(@Param("userId") Long userId);
+    @Query("SELECT P FROM Pet P WHERE P.user.id = ?1")
+    List<Pet> findPetDataByUser(@Param("userId") Long userId);
+
+    @Query("Select P from Pet P where P.name like :animalName")
+    List<Pet> searchPetByName(@Param("animalName") String animalName);
 }

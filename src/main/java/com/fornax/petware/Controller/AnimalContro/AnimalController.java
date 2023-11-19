@@ -24,6 +24,11 @@ public class AnimalController {
         return animalRepository.findAll();
     }
 
+    @GetMapping("pets/search")
+    public List<Pet> getPetsByName(@RequestParam(value = "name") String name) {
+        return animalRepository.searchPetByName(name);
+    }
+
     @GetMapping("/petsData")
     public List<Object[]> getPetData() {
         return animalRepository.findPetData();
@@ -31,17 +36,7 @@ public class AnimalController {
 
     @GetMapping("/user/{userId}/pets")
     public List<Pet> getPets(@PathVariable Long userId) {
-        List<String[]> queryResponse = animalRepository.findPetDataByUser(userId);
-        ArrayList<Pet> pets = new ArrayList<>();
-        queryResponse.forEach(p -> {
-            Pet pet = new Pet();
-            pet.setId(Long.parseLong(p[0]));
-            pet.setName(p[1]);
-            pet.setBreed(p[2]);
-            pet.setDate(new Date()); // pet[3] string -> date
-            pet.setSpecie(p[4]);
-            pets.add(pet);
-        });
+        List<Pet> pets = animalRepository.findPetDataByUser(userId);;
         return pets;
     }
 
