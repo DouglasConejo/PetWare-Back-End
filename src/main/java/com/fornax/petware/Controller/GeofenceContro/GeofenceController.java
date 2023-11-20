@@ -50,7 +50,7 @@ public class GeofenceController {
         return geofenceRepo.findGeofencesByUserId(id);
     }
 
-    @PostMapping("geofences")
+    @PostMapping("Geofences")
     public Geofences addGeofence(@RequestBody Geofences geofences) {
         return geofenceRepo.save(geofences);
     }

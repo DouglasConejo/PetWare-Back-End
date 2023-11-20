@@ -68,7 +68,7 @@ public class PetControllerTest {
         Mockito.when(petService.addPet(Mockito.any(Pet.class))).thenReturn(result);
 
         this.mockMvc
-                .perform(post("/pets").content(asJsonString(newPet)).contentType(MediaType.APPLICATION_JSON)
+                .perform(post("/").content(asJsonString(newPet)).contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andDo(print())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", is(notNullValue())))

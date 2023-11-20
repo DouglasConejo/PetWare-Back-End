@@ -75,7 +75,7 @@ public class GeoCercaControllerTest {
         willDoNothing().given(geoFenceService).borrarGeoCercas(geoCercaId);
 
         // when -  action or the behaviour that we are going test
-        ResultActions response = mockMvc.perform(delete("/api/Deletegeofence/{id}", geoCercaId));
+        ResultActions response = mockMvc.perform(delete("/Deletegeofence/{id}", geoCercaId));
 
         // then - verify the output
         response.andExpect(status().isOk())
