@@ -1,6 +1,7 @@
 package com.fornax.petware.Entity.AnimalPackage;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fornax.petware.Entity.DevicePackage.Device;
 import com.fornax.petware.Entity.Pet_History.PetHistory;
@@ -15,6 +16,7 @@ import java.util.List;
 @Entity
 @Proxy(lazy = false)
 @Table(name = "pets")
+@JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +36,8 @@ public class Pet {
     @OneToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JoinColumn(name = "device_id")
     private Device device;
+
+
 
     private String name;
 
