@@ -3,13 +3,12 @@ package com.fornax.petware.Entity.GeofencesPackages;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fornax.petware.Entity.CoordinatesPackage.Coordinate;
-import com.fornax.petware.Entity.DevicePackage.Device;
-import com.fornax.petware.Entity.QuotePackage.Quote;
 import com.fornax.petware.Entity.UserPackage.User;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "geofences")
