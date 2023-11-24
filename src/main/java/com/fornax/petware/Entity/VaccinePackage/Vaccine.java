@@ -13,7 +13,7 @@ public class Vaccine {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="vaccine_registry_fk")
-    @JsonBackReference
+    @JsonBackReference(value = "vaccine-registry_vaccine")
     private Vaccine_Registry vaccine_registry;
 
     private String description;

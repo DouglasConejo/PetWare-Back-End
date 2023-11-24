@@ -23,6 +23,6 @@ public class Medical_History {
     private Pet pet;
 
     @OneToMany(mappedBy = "medical_history",cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "medical_history-registry_disease")
     List<Disease_Registry> disease_registries = new ArrayList<>();
 }

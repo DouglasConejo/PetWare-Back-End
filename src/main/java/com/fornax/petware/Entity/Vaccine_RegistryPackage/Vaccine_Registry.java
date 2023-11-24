@@ -22,7 +22,7 @@ public class Vaccine_Registry {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="historial_vaccine_fk")
-    @JsonBackReference
+    @JsonBackReference(value = "vaccine-registry_vaccine_history")
     private History_Vaccine history_vaccine;
 
     private String description;
@@ -30,7 +30,7 @@ public class Vaccine_Registry {
     private Date recovery_date;
 
     @OneToMany(mappedBy = "vaccine",cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "vaccine-registry_vaccine")
     List<Vaccine> vaccine = new ArrayList<>();
 
     public Vaccine_Registry() {
