@@ -29,7 +29,7 @@ public class Vaccine_Registry {
 
     private Date recovery_date;
 
-    @OneToMany(mappedBy = "vaccine",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "vaccine_registry",cascade = CascadeType.ALL)
     @JsonManagedReference(value = "vaccine-registry_vaccine")
     List<Vaccine> vaccine = new ArrayList<>();
 

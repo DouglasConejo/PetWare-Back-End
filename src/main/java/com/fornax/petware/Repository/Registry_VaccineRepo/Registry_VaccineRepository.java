@@ -20,7 +20,7 @@ public interface Registry_VaccineRepository extends JpaRepository<Vaccine_Regist
             "WHERE hv.pet.id = :petId")
     List<String[]> findDataByIdPet(@Param("petId") Long petId);
 
-    @Query("SELECT vr.description, vr.recovery_date FROM Vaccine_Registry vr WHERE vr.history_vaccine.id = :id_vaccine_history")
-    List<String[]> findVaccine_historyById(Long id_vaccine_history);
+    @Query("SELECT vr FROM Vaccine_Registry vr WHERE vr.history_vaccine.id = :id_vaccine_history")
+    List<Vaccine_Registry> findVaccine_historyById(Long id_vaccine_history);
 
 }

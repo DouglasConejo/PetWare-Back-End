@@ -31,24 +31,9 @@ public class Vaccine_RegistryController {
         vaccine_registryRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/disease_registry/{Id}/pets")
+    @GetMapping("/vaccines_registry/{Id}/pets")
     public List<Vaccine_Registry> getDisease_RegistryJSON(@PathVariable Long id_vaccine_history) {
-        List<String[]> queryResponse = vaccine_registryRepository.findVaccine_historyById(id_vaccine_history);
-        ArrayList<Vaccine_Registry> disease_registries = new ArrayList<>();
-        queryResponse.forEach(p -> {
-            Vaccine_Registry diseaseRegistry = new Vaccine_Registry();
-            diseaseRegistry.setDescription((p[1]));
-            // Parsear la fecha utilizando SimpleDateFormat
-            try {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date recoveryDate = dateFormat.parse(p[4]);
-                diseaseRegistry.setRecovery_date(recoveryDate);
-            } catch (ParseException e) {
-                // Manejar la excepción si hay un problema al parsear la fecha
-                e.printStackTrace();
-            }
-            disease_registries.add(diseaseRegistry);
-        });
-        return disease_registries;
+        return vaccine_registryRepository.findVaccine_historyById(id_vaccine_history);
+//        return disease_registries;
     }
 }
