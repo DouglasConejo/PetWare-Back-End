@@ -19,7 +19,7 @@ public class Disease {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="disease_registry_fk")
-    @JsonBackReference
+    @JsonBackReference(value = "disease-registry_disease")
     private Disease_Registry disease_registry;
 
     public Disease() {

@@ -27,11 +27,11 @@ public class Disease_Registry {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="medical_history_fk")
-    @JsonBackReference
+    @JsonBackReference(value = "medical_history-registry_disease")
     private Medical_History medical_history;
 
     @OneToMany(mappedBy = "disease_registry",cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "disease-registry_disease")
     List<Disease> diseases = new ArrayList<>();
 
     public Disease_Registry() {

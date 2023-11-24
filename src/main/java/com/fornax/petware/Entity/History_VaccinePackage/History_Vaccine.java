@@ -25,7 +25,7 @@ public class History_Vaccine {
     private Pet pet;
 
     @OneToMany(mappedBy = "history_vaccine",cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "vaccine-registry_vaccine_history")
     List<Vaccine_Registry> vaccine_registries = new ArrayList<>();
 
     public History_Vaccine() {
