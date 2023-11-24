@@ -19,4 +19,6 @@ public interface DeviceRepository  extends JpaRepository<Device, Long> {
             "JOIN d.coordinate c " +
             "WHERE c.id = :coordinateId")
     List<String[]> findDeviceDataByCoordinate(@Param("coordinateId") Long coordinateId);
+
+
 }

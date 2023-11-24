@@ -7,9 +7,22 @@ import com.fornax.petware.Entity.CoordinatesPackage.Coordinate;
 import com.fornax.petware.Entity.GeofencesPackages.Geofences;
 import com.fornax.petware.Entity.UserPackage.User;
 import jakarta.persistence.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.io.BufferedReader;
+import java.net.URL;
+
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Entity
 @Table(name = "device")
@@ -64,6 +77,73 @@ public class Device {
 
     public void setUbication(String ubication) {
         this.ubication = ubication;
+    }
+
+    public List<Coordinate> getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(List<Coordinate> coordinate) {
+        this.coordinate = coordinate;
+    }
+
+    public List updateCoords() {
+        String coordsNuevas;
+        try {
+            String filePath = "src/main/resources/IOsecrets.json";
+            StringBuilder content = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    content.append(line);
+                }
+            }
+            JSONObject jsonObject = new JSONObject(content.toString());
+            String aioKey = jsonObject.getString("secretKey");
+            String feedURL = jsonObject.getString("FeedUrl");
+            URL url = new URL(feedURL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("X-AIO-Key", aioKey);
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode == 200) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line;
+                StringBuilder response = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+                coordsNuevas = obtenerLastValue(response.toString());
+                return coordsNuevas;
+            } else {
+                return ("Error: Unable to fetch data. Response code: " + responseCode);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return "Error: Unable to connect to AdaFruit IO";
+    }
+
+    public String obtenerLastValue(String ResponseURL) {
+        String pattern = "\"last_value\":\"(.*?)\"";
+        Pattern regexPattern = Pattern.compile(pattern);
+
+        Matcher matcher = regexPattern.matcher(ResponseURL);
+
+        if (matcher.find()) {
+            String lastValue = matcher.group(1);
+            return "" + lastValue;
+        } else {
+            return "No se encontró \"last_value\"";
+        }
     }
 
 }
