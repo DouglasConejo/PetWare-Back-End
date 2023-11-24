@@ -1,6 +1,7 @@
 package com.fornax.petware.Entity.VaccinePackage;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fornax.petware.Entity.Vaccine_RegistryPackage.Vaccine_Registry;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,9 +12,9 @@ public class Vaccine {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="vaccine_fk")
+    @JoinColumn(name="vaccine_registry_fk")
     @JsonBackReference
-    private Vaccine vaccine;
+    private Vaccine_Registry vaccine_registry;
 
     private String description;
 
@@ -22,9 +23,9 @@ public class Vaccine {
     public Vaccine() {
     }
 
-    public Vaccine(long id, Vaccine vaccine, String description, String name) {
+    public Vaccine(long id, Vaccine_Registry vaccine_registry1, String description, String name) {
         this.id = id;
-        this.vaccine = vaccine;
+        this.vaccine_registry = vaccine_registry1;
         this.description = description;
         this.name = name;
     }
@@ -37,12 +38,12 @@ public class Vaccine {
         this.id = id;
     }
 
-    public Vaccine getVaccine() {
-        return vaccine;
+    public Vaccine_Registry getVaccine_registry() {
+        return vaccine_registry;
     }
 
-    public void setVaccine(Vaccine vaccine) {
-        this.vaccine = vaccine;
+    public void setVaccine_registry(Vaccine_Registry vaccine_registry) {
+        this.vaccine_registry = vaccine_registry;
     }
 
     public String getDescription() {
