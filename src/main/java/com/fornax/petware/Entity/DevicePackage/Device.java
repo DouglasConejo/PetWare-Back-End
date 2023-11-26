@@ -20,6 +20,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -79,16 +80,15 @@ public class Device {
         this.ubication = ubication;
     }
 
-    public List<Coordinate> getCoordinate() {
-        return coordinate;
+
+    public void updateCoordinates(float newLat, float newLng) {
+        for (Coordinate coordinate : coordinate) {
+            coordinate.setLat(newLat);
+            coordinate.setLng(newLng);
+        }
     }
 
-    public void setCoordinate(List<Coordinate> coordinate) {
-        this.coordinate = coordinate;
-    }
-
-    public List updateCoords() {
-        String coordsNuevas;
+    public String[] updateCoords() {
         try {
             String filePath = "src/main/resources/IOsecrets.json";
             StringBuilder content = new StringBuilder();
@@ -106,7 +106,6 @@ public class Device {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("X-AIO-Key", aioKey);
             int responseCode = connection.getResponseCode();
-
             if (responseCode == 200) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line;
@@ -116,10 +115,9 @@ public class Device {
                     response.append(line);
                 }
                 reader.close();
-                coordsNuevas = obtenerLastValue(response.toString());
-                return coordsNuevas;
+                return obtenerLastValue(response.toString());
             } else {
-                return ("Error: Unable to fetch data. Response code: " + responseCode);
+                return Collections.singletonList("Error: Unable to connect to AdaFruit IO").toArray(new String[0]);
             }
 
         } catch (IOException e) {
@@ -129,10 +127,10 @@ public class Device {
         }
 
 
-        return "Error: Unable to connect to AdaFruit IO";
+        return Collections.singletonList("Error: Unable to connect to AdaFruit IO").toArray(new String[0]);
     }
 
-    public String obtenerLastValue(String ResponseURL) {
+    public static String[] obtenerLastValue(String ResponseURL) {
         String pattern = "\"last_value\":\"(.*?)\"";
         Pattern regexPattern = Pattern.compile(pattern);
 
@@ -140,9 +138,12 @@ public class Device {
 
         if (matcher.find()) {
             String lastValue = matcher.group(1);
-            return "" + lastValue;
+            // Split the lastValue into two parts using the "|" character
+            String[] values = lastValue.split("\\|");
+            return values;
         } else {
-            return "No se encontró \"last_value\"";
+            // Return an array with a default value if "last_value" is not found
+            return new String[]{"No se encontró \"last_value\""};
         }
     }
 

@@ -2,6 +2,7 @@ package com.fornax.petware.Controller.DeviceContro;
 
 import com.fornax.petware.Entity.AnimalPackage.Pet;
 import com.fornax.petware.Entity.DevicePackage.Device;
+import com.fornax.petware.Entity.CoordinatesPackage.Coordinate;
 import com.fornax.petware.Repository.DeviceRepo.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +52,10 @@ public class DeviceController {
     public ResponseEntity<Device> updateCoords(@PathVariable(value = "id") Long id,
                                                @RequestBody Device deviceUpdate){
         Optional<Device> perfil = deviceRepository.findById(id);
-        perfil.get().setCoordinate(deviceUpdate.updateCoords());
+        String[] coordsNuevas = perfil.get().updateCoords();
+        float newlat = Float.parseFloat(coordsNuevas[0]);
+        float newlong = Float.parseFloat(coordsNuevas[1]);
+        perfil.get().updateCoordinates(newlat,newlong);
         Device updatedDevice = deviceRepository.save(perfil.get());
         return ResponseEntity.ok(updatedDevice);
     }
