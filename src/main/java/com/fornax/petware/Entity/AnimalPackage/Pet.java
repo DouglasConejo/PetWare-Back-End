@@ -63,6 +63,16 @@ public class Pet {
         this.date = date;
     }
 
+    public Pet(long id_pet, String name, String specie, String breed, Date date, User user, Device device) {
+        this.id = id_pet;
+        this.user = user;
+        this.name = name;
+        this.specie = specie;
+        this.breed = breed;
+        this.date = date;
+        this.device = device;
+    }
+
     public long getId() {
         return id;
     }
@@ -111,4 +121,11 @@ public class Pet {
         this.date = date;
     }
 
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
+    }
 }

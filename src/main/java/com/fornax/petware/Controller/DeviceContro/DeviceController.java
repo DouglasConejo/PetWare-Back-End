@@ -48,17 +48,6 @@ public class DeviceController {
     public Device addDevices(@RequestBody Device device) {
         return deviceRepository.save(device);
     }
-    @PutMapping("deviceCoords/{id}")
-    public ResponseEntity<Device> updateCoords(@PathVariable(value = "id") Long id,
-                                               @RequestBody Device deviceUpdate){
-        Optional<Device> perfil = deviceRepository.findById(id);
-        String[] coordsNuevas = perfil.get().updateCoords();
-        float newlat = Float.parseFloat(coordsNuevas[0]);
-        float newlong = Float.parseFloat(coordsNuevas[1]);
-        perfil.get().updateCoordinates(newlat,newlong);
-        Device updatedDevice = deviceRepository.save(perfil.get());
-        return ResponseEntity.ok(updatedDevice);
-    }
 
     @PutMapping("device/{id}")
     public ResponseEntity<Device> updateDevice(@PathVariable(value = "id") Long id,
