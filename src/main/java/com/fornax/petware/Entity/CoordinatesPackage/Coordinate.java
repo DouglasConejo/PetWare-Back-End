@@ -30,11 +30,6 @@ public class Coordinate {
     @JsonBackReference(value = "geofence-coordinate")
     private Geofences coordinates;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="device_fk")
-    @JsonBackReference(value = "device-coordinates")
-    private Device device;
-
     public Coordinate() {
     }
 
@@ -44,7 +39,6 @@ public class Coordinate {
         this.lng = lng;
         this.orderNum = orderNum;
         this.coordinates = geofence;
-        this.device=device;
     }
 
     public long getId() {

@@ -7,9 +7,20 @@ import com.fornax.petware.Entity.CoordinatesPackage.Coordinate;
 import com.fornax.petware.Entity.GeofencesPackages.Geofences;
 import com.fornax.petware.Entity.UserPackage.User;
 import jakarta.persistence.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.io.BufferedReader;
+import java.net.URL;
+
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Entity
 @Table(name = "device")
@@ -28,10 +39,6 @@ public class Device {
     @JoinColumn(name = "pet_id")
     private Pet pet;
 
-    @OneToMany(mappedBy = "device",cascade = CascadeType.ALL)
-    @JsonManagedReference(value = "device-coordinates")
-    List<Coordinate> coordinate = new ArrayList<>();
-
     public Device() {
     }
 
@@ -39,7 +46,6 @@ public class Device {
         this.id = id;
         this.serialNumber = serialNumber;
         this.ubication = ubication;
-
     }
 
     public long getId() {
@@ -65,5 +71,9 @@ public class Device {
     public void setUbication(String ubication) {
         this.ubication = ubication;
     }
+
+
+
+
 
 }
