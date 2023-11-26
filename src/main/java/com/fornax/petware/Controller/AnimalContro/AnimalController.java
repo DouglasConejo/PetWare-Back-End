@@ -122,18 +122,10 @@ public class AnimalController {
             String feedURL = this.FeedBaseUrl + "/" + device.getUbication();
             URI url = URI.create(feedURL);
             HttpRequest request = HttpRequest.newBuilder(url).header("X-AIO-KEY", aioKey).build();
-//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
                 JSONObject json = new JSONObject(response.body());
                 System.out.println(json.get("last_value"));
-//                String line;
-//                StringBuilder response = new StringBuilder();
-//
-//                while ((line = reader.readLine()) != null) {
-//                    response.append(line);
-//                }
-//                reader.close();
                 String lastValue = (String) json.get("last_value");
                 return getCoordinatesLastValue(lastValue);
             } else {
