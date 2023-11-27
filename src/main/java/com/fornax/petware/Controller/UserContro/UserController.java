@@ -4,9 +4,13 @@ import com.fornax.petware.Entity.UserPackage.Role;
 import com.fornax.petware.Entity.UserPackage.User;
 import com.fornax.petware.Repository.UserRepo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,24 +64,52 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/user/id/{id}")
+    public ResponseEntity<User> findUserById(@PathVariable Long id) {
+        Optional<User> user = userRepository.findById(id);
 
-    @PutMapping("user/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long id, @RequestBody User perfilUpdate) {
+        return user.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
+    @PutMapping("/user/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long id,
+                                           @RequestBody User perfilUpdate) {
         Optional<User> optionalUser = userRepository.findById(id);
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            user.setEmail(perfilUpdate.getEmail());
-            user.setName(perfilUpdate.getName());
-            user.setPassword(perfilUpdate.getPassword());
-            user.setPhone(perfilUpdate.getPhone());
-            user.setRole(perfilUpdate.getRole());
 
+            // Validación de campos
+            if (perfilUpdate.getEmail() != null && !perfilUpdate.getEmail().isEmpty()) {
+                user.setEmail(perfilUpdate.getEmail());
+            }
+
+            if (perfilUpdate.getName() != null) {
+                user.setName(perfilUpdate.getName());
+            }
+
+            if (perfilUpdate.getPassword() != null) {
+                user.setPassword(perfilUpdate.getPassword());
+            }
+
+            if (perfilUpdate.getPhone() != null) {
+                user.setPhone(perfilUpdate.getPhone());
+            }
+
+            if (perfilUpdate.getRole() != null) {
+                user.setRole(perfilUpdate.getRole());
+            }
+
+            // Guardar el usuario actualizado
             User updatedUser = userRepository.save(user);
             return ResponseEntity.ok(updatedUser);
         } else {
             return ResponseEntity.notFound().build();
         }
+
     }
+
+
 
 }
