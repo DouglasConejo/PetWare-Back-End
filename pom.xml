@@ -48,6 +48,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+
             <groupId>com.paypal.sdk</groupId>
             <artifactId>rest-api-sdk</artifactId>
             <version>1.4.2</version>
@@ -56,6 +57,11 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+        </dependency>
+         <dependency>
+            <groupId>com.vaadin.external.google</groupId>
+            <artifactId>android-json</artifactId>
+            <version>0.0.20131108.vaadin1</version>
         </dependency>
     </dependencies>
 

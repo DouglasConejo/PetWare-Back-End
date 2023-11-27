@@ -13,10 +13,4 @@ public interface DeviceRepository  extends JpaRepository<Device, Long> {
             "FROM Device d " +
             "WHERE d.pet.id = :petId")
     List<String[]> findDeviceDataByPet(@Param("petId") Long userId);
-
-    @Query("SELECT d.serialNumber, d.ubication " +
-            "FROM Device d " +
-            "JOIN d.coordinate c " +
-            "WHERE c.id = :coordinateId")
-    List<String[]> findDeviceDataByCoordinate(@Param("coordinateId") Long coordinateId);
 }
