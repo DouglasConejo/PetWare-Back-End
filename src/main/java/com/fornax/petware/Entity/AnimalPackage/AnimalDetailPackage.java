@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 
 import java.util.Date;
 
-@Entity()
 public class AnimalDetailPackage extends Pet {
 
     private String latitude;

@@ -108,8 +108,10 @@ public class AnimalController {
             if (requestBody.isGetCoordinates()) {
                 if (a.getDevice() != null) {
                     String[] coordinates = this.getDeviceCoordinates(a.getDevice());
-                    animal.setLatitude(coordinates[0]);
-                    animal.setLongitude(coordinates[1]);
+                    if (coordinates != null) {
+                        animal.setLatitude(coordinates[0]);
+                        animal.setLongitude(coordinates[1]);
+                    }
                 }
             }
             animalDetailList.add(animal);
@@ -125,21 +127,14 @@ public class AnimalController {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
                 JSONObject json = new JSONObject(response.body());
-                System.out.println(json.get("last_value"));
                 String lastValue = (String) json.get("last_value");
                 return getCoordinatesLastValue(lastValue);
             } else {
-                return Collections.singletonList("Error: Unable to connect to AdaFruit IO").toArray(new String[0]);
+                return null;
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            return null;
         }
-        return Collections.singletonList("Error: Unable to connect to AdaFruit IO").toArray(new String[0]);
     }
 
     public static String[] getCoordinatesLastValue(String lastValue) {

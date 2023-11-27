@@ -71,9 +71,4 @@ public class Device {
     public void setUbication(String ubication) {
         this.ubication = ubication;
     }
-
-
-
-
-
 }
