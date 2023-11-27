@@ -1,6 +1,7 @@
 package com.fornax.petware.Entity.AnimalPackage;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fornax.petware.Entity.DevicePackage.Device;
 import com.fornax.petware.Entity.Pet_History.PetHistory;
@@ -11,16 +12,15 @@ import org.hibernate.annotations.Proxy;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
-@Proxy(lazy = false)
 @Table(name = "pets")
 public class Pet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    //Id_user
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user")
     @JsonBackReference(value = "user-pets")
@@ -61,6 +61,16 @@ public class Pet {
         this.specie = specie;
         this.breed = breed;
         this.date = date;
+    }
+
+    public Pet(long id_pet, String name, String specie, String breed, Date date, User user, Device device) {
+        this.id = id_pet;
+        this.user = user;
+        this.name = name;
+        this.specie = specie;
+        this.breed = breed;
+        this.date = date;
+        this.device = device;
     }
 
     public long getId() {
@@ -111,4 +121,11 @@ public class Pet {
         this.date = date;
     }
 
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
+    }
 }

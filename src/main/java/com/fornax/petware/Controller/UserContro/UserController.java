@@ -3,6 +3,7 @@ package com.fornax.petware.Controller.UserContro;
 import com.fornax.petware.Entity.UserPackage.Role;
 import com.fornax.petware.Entity.UserPackage.User;
 import com.fornax.petware.Repository.UserRepo.UserRepository;
+import com.fornax.petware.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,18 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    private UserService userService;
+    @PostMapping("/add-user")
+    public User submitUser(@RequestBody User newUser){
+        User user = userService.adduser(newUser);
+        return user;
+    }
+
+    @GetMapping("all-users")
+    public List<User> getAllUsers(){
+        return userService.getAllUsers();
+    }
 
     @GetMapping("hello")
     public String hello() {
@@ -33,12 +46,13 @@ public class UserController {
 
     @GetMapping("user/{email}")
     public ResponseEntity<User> findUserByEmail(@PathVariable(value = "email") String email) {
+        System.out.println("Hello world " + email);
         Optional<User> user = Optional.ofNullable(userRepository.findByEmail(email));
 
         if (user.isPresent()) {
             return ResponseEntity.ok().body(user.get());
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(500).build();
     }
 
 

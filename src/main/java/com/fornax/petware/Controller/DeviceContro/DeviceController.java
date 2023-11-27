@@ -2,6 +2,7 @@ package com.fornax.petware.Controller.DeviceContro;
 
 import com.fornax.petware.Entity.AnimalPackage.Pet;
 import com.fornax.petware.Entity.DevicePackage.Device;
+import com.fornax.petware.Entity.CoordinatesPackage.Coordinate;
 import com.fornax.petware.Repository.DeviceRepo.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
