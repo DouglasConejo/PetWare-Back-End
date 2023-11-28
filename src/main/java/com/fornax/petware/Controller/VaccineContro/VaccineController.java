@@ -1,9 +1,6 @@
 package com.fornax.petware.Controller.VaccineContro;
 
-import com.fornax.petware.Entity.DiseasePackage.Disease;
 import com.fornax.petware.Entity.VaccinePackage.Vaccine;
-import com.fornax.petware.Entity.Vaccine_RegistryPackage.Vaccine_Registry;
-import com.fornax.petware.Repository.Registry_VaccineRepo.Registry_VaccineRepository;
 import com.fornax.petware.Repository.VaccineRepo.VaccineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
