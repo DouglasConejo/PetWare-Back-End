@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fornax.petware.Entity.DevicePackage.Device;
+import com.fornax.petware.Entity.Disease_RegistryPackage.Disease_Registry;
 import com.fornax.petware.Entity.Pet_History.PetHistory;
 import com.fornax.petware.Entity.UserPackage.User;
+import com.fornax.petware.Entity.Vaccine_RegistryPackage.Vaccine_Registry;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Proxy;
 
@@ -31,6 +33,14 @@ public class Pet {
     @JsonManagedReference(value = "pet-petHistory")
     List<PetHistory> petHistories = new ArrayList<>();
 
+    @OneToMany(mappedBy = "petDisease",cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "pet-disease_registries")
+    List<Disease_Registry> disease_registries = new ArrayList<>();
+
+    @OneToMany(mappedBy = "petVaccine",cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "pet-vaccine_registries")
+    List<Vaccine_Registry> vaccine_registries = new ArrayList<>();
+
     @OneToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JoinColumn(name = "device_id")
     private Device device;
@@ -43,6 +53,8 @@ public class Pet {
 
     private Date date;
 
+    private boolean isSick;
+
     public Pet() {
     }
 
@@ -54,17 +66,32 @@ public class Pet {
         this.date = date;
     }
 
-    public Pet(long id_pet, User user, String name, String specie, String breed, Date date) {
+    public Pet(long id, User user, List<PetHistory> petHistories, List<Disease_Registry> disease_registries, Device device, String name, String specie, String breed, Date date, boolean isSick) {
+        this.id = id;
+        this.user = user;
+        this.petHistories = petHistories;
+        this.disease_registries = disease_registries;
+        this.device = device;
+        this.name = name;
+        this.specie = specie;
+        this.breed = breed;
+        this.date = date;
+        this.isSick = isSick;
+    }
+
+    public Pet(long id_pet, String name, String specie, String breed, Date date, User user, Device device) {
         this.id = id_pet;
         this.user = user;
         this.name = name;
         this.specie = specie;
         this.breed = breed;
         this.date = date;
+        this.device = device;
     }
 
-    public Pet(long id_pet, String name, String specie, String breed, Date date, User user, Device device) {
-        this.id = id_pet;
+    public Pet(long idPet, User user, String name, String specie, String breed, Date date) {
+
+        this.id = idPet;
         this.user = user;
         this.name = name;
         this.specie = specie;
@@ -127,5 +154,13 @@ public class Pet {
 
     public void setDevice(Device device) {
         this.device = device;
+    }
+
+    public boolean isSick() {
+        return isSick;
+    }
+
+    public void setSick(boolean sick) {
+        isSick = sick;
     }
 }

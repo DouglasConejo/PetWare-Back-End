@@ -1,8 +1,7 @@
 package com.fornax.petware.Entity.Vaccine_RegistryPackage;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fornax.petware.Entity.History_VaccinePackage.History_Vaccine;
+import com.fornax.petware.Entity.AnimalPackage.Pet;
 import com.fornax.petware.Entity.VaccinePackage.Vaccine;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Proxy;
@@ -21,9 +20,9 @@ public class Vaccine_Registry {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="historial_vaccine_fk")
-    @JsonBackReference(value = "vaccine-registry_vaccine_history")
-    private History_Vaccine history_vaccine;
+    @JoinColumn(name="pet_fk")
+    @JsonManagedReference(value = "pet-vaccine_registries")
+    private Pet petVaccine;
 
     private String description;
 
@@ -36,9 +35,9 @@ public class Vaccine_Registry {
     public Vaccine_Registry() {
     }
 
-    public Vaccine_Registry(long id, History_Vaccine history_vaccine, String description, Date recovery_date) {
+    public Vaccine_Registry(long id, Pet petVaccine, String description, Date recovery_date) {
         this.id = id;
-        this.history_vaccine = history_vaccine;
+        this.petVaccine = petVaccine;
         this.description = description;
         this.recovery_date = recovery_date;
     }
@@ -51,13 +50,7 @@ public class Vaccine_Registry {
         this.id = id;
     }
 
-    public History_Vaccine getHistory_vaccine() {
-        return history_vaccine;
-    }
 
-    public void setHistory_vaccine(History_Vaccine history_vaccine) {
-        this.history_vaccine = history_vaccine;
-    }
 
     public String getDescription() {
         return description;
