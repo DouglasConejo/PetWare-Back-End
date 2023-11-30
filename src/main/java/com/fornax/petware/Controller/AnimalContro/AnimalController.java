@@ -143,6 +143,7 @@ public class AnimalController {
             String[] values = lastValue.split("\\|");
             return values;
     }
+    //Mostrar cantidad de mascotas por usuario
     @GetMapping("/countPetsByUser/{userId}")
     public ResponseEntity<Long> countPetsByUser(@PathVariable(value = "userId") Long userId) {
         List<Object[]> result = animalRepository.countPetsByUserId(userId);
@@ -163,5 +164,24 @@ public class AnimalController {
     public ResponseEntity<Long> countSickPetsThisMonthForUser(@PathVariable(value = "userId") Long userId) {
         Long count = animalRepository.countSickPetsThisMonthForUser(userId);
         return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    //Todas las enfermedades con fecha de recuperacion
+    @GetMapping("/totalDiseases/{userId}/{year}")
+    public ResponseEntity<Long> getTotalDiseasesByUserAndYear(@PathVariable Long userId, @PathVariable int year) {
+        Long totalDiseases = animalRepository.getTotalDiseasesByUserAndYear(userId, year);
+        return new ResponseEntity<>(totalDiseases, HttpStatus.OK);
+    }
+    //Todas las enfermedades con fecha de recuperacion y sin fecha de recuperacion
+    @GetMapping("/totalDiseases/{userId}")
+    public ResponseEntity<Long> getTotalDiseasesByUser(@PathVariable Long userId) {
+        Long totalDiseases = animalRepository.getTotalDiseasesByUserByYear(userId);
+        return new ResponseEntity<>(totalDiseases, HttpStatus.OK);
+    }
+
+    @GetMapping("/mostCommonDisease")
+    public ResponseEntity<List<Object[]>> getMostCommonDisease() {
+        List<Object[]> mostCommonDisease = animalRepository.findMostCommonDisease();
+        return new ResponseEntity<>(mostCommonDisease, HttpStatus.OK);
     }
 }
