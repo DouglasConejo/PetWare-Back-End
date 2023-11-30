@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -141,5 +142,26 @@ public class AnimalController {
             // Split the lastValue into two parts using the "|" character
             String[] values = lastValue.split("\\|");
             return values;
+    }
+    @GetMapping("/countPetsByUser/{userId}")
+    public ResponseEntity<Long> countPetsByUser(@PathVariable(value = "userId") Long userId) {
+        List<Object[]> result = animalRepository.countPetsByUserId(userId);
+
+        // Verifica si hay resultados y devuelve el conteo
+        if (!result.isEmpty()) {
+            Long count = (Long) result.get(0)[1];
+            return new ResponseEntity<>(count, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(0L, HttpStatus.OK); // o puedes devolver HttpStatus.NOT_FOUND
+        }
+    }
+    //ID de pruebas:
+    // 118220722=3
+    ////1822298222=2
+    ////118220722=1
+    @GetMapping("/countSickPetsThisMonth/{userId}")
+    public ResponseEntity<Long> countSickPetsThisMonthForUser(@PathVariable(value = "userId") Long userId) {
+        Long count = animalRepository.countSickPetsThisMonthForUser(userId);
+        return new ResponseEntity<>(count, HttpStatus.OK);
     }
 }

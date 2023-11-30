@@ -9,9 +9,6 @@ import java.util.List;
 
 public interface Registry_VaccineRepository extends JpaRepository<Vaccine_Registry, Long> {
 
-    @Query("SELECT vr.description, vr.recovery_date, v.name " +
-            "FROM Vaccine_Registry vr " +
-            "JOIN vr.vaccine v " )
-    List<String[]> listPrincipalData();
+
 
 }

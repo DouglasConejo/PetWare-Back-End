@@ -1,8 +1,12 @@
 package com.fornax.petware.Entity.VaccinePackage;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fornax.petware.Entity.Vaccine_RegistryPackage.Vaccine_Registry;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "vaccine")
@@ -11,11 +15,9 @@ public class Vaccine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="vaccine_registry_fk")
-    @JsonBackReference(value = "vaccine-registry_vaccine")
-    private Vaccine_Registry vaccine_registry;
-
+    @OneToMany(mappedBy = "vaccineRegistry",cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "vaccine-vaccine_registries")
+    List<Vaccine_Registry> vaccine_registries = new ArrayList<>();
     private String description;
 
     private String name;
@@ -23,9 +25,8 @@ public class Vaccine {
     public Vaccine() {
     }
 
-    public Vaccine(long id, Vaccine_Registry vaccine_registry1, String description, String name) {
+    public Vaccine(long id, String description, String name) {
         this.id = id;
-        this.vaccine_registry = vaccine_registry1;
         this.description = description;
         this.name = name;
     }
@@ -38,13 +39,7 @@ public class Vaccine {
         this.id = id;
     }
 
-    public Vaccine_Registry getVaccine_registry() {
-        return vaccine_registry;
-    }
 
-    public void setVaccine_registry(Vaccine_Registry vaccine_registry) {
-        this.vaccine_registry = vaccine_registry;
-    }
 
     public String getDescription() {
         return description;
