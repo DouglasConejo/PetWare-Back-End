@@ -20,7 +20,7 @@ public class Disease_Registry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String treatment;
-
+    @Column(nullable = true)
     private Date recovery_date;
 
     private String description;

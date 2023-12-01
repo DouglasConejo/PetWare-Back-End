@@ -25,24 +25,4 @@ public class VaccineController {
         vaccineRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
-
-
-    @GetMapping("/vaccine")
-    public List<Vaccine> listVaccines() {
-        return vaccineRepository.findAll();
-    }
-
-    @GetMapping("/vaccine/{Id}/pets")
-    public List<Vaccine> getDisease_RegistryJSON(@PathVariable Long petId) {
-        List<String[]> queryResponse = vaccineRepository.findVaccineregisterById(petId);
-        ArrayList<Vaccine> vaccines= new ArrayList<>();
-        queryResponse.forEach(p -> {
-            Vaccine vaccine= new Vaccine();
-            vaccine.setId(Long.parseLong(p[0]));
-            vaccine.setDescription((p[1]));
-            vaccine.setName((p[2]));
-            vaccines.add(vaccine);
-        });
-        return vaccines;
-    }
 }

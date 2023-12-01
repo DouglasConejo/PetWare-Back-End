@@ -53,7 +53,9 @@ public class Pet {
 
     private Date date;
 
-    private boolean isSick;
+    //1 = ENFERMO
+    //2 = SALUDABLE
+    private int isSick;
 
     public Pet() {
     }
@@ -66,7 +68,7 @@ public class Pet {
         this.date = date;
     }
 
-    public Pet(long id, User user, List<PetHistory> petHistories, List<Disease_Registry> disease_registries, Device device, String name, String specie, String breed, Date date, boolean isSick) {
+    public Pet(long id, User user, List<PetHistory> petHistories, List<Disease_Registry> disease_registries, Device device, String name, String specie, String breed, Date date, int isSick) {
         this.id = id;
         this.user = user;
         this.petHistories = petHistories;
@@ -156,11 +158,11 @@ public class Pet {
         this.device = device;
     }
 
-    public boolean isSick() {
+    public int isSick() {
         return isSick;
     }
 
-    public void setSick(boolean sick) {
+    public void setSick(int sick) {
         isSick = sick;
     }
 }

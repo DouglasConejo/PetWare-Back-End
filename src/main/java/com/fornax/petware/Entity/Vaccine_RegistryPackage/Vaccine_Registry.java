@@ -24,13 +24,15 @@ public class Vaccine_Registry {
     @JsonManagedReference(value = "pet-vaccine_registries")
     private Pet petVaccine;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="vaccine_fk")
+    @JsonManagedReference(value = "vaccine-vaccine_registries")
+    private Vaccine vaccineRegistry;
     private String description;
 
     private Date recovery_date;
 
-    @OneToMany(mappedBy = "vaccine_registry",cascade = CascadeType.ALL)
-    @JsonManagedReference(value = "vaccine-registry_vaccine")
-    List<Vaccine> vaccine = new ArrayList<>();
+
 
     public Vaccine_Registry() {
     }
