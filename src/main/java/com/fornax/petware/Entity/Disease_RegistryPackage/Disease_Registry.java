@@ -30,20 +30,23 @@ public class Disease_Registry {
     @JsonManagedReference(value = "pet-disease_registries")
     private Pet petDisease;
 
-    @OneToMany(mappedBy = "disease_registry",cascade = CascadeType.ALL)
-    @JsonManagedReference(value = "disease-registry_disease")
-    List<Disease> diseases = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="disease_fk")
+    @JsonManagedReference(value = "disease-disease_registries")
+    private Disease diseaseRegsitry;
+
 
     public Disease_Registry() {
     }
 
-    public Disease_Registry(long id, String treatment, Date recovery_date, String description, Pet pet, List<Disease> diseases) {
+    public Disease_Registry(long id, String treatment, Date recovery_date, String description, Pet pet, Disease diseases) {
         this.id = id;
         this.treatment = treatment;
         this.recovery_date = recovery_date;
         this.description = description;
         this.petDisease = pet;
-        this.diseases = diseases;
+        this.diseaseRegsitry = diseases;
     }
 
     public long getId() {
@@ -86,11 +89,11 @@ public class Disease_Registry {
         this.petDisease = petDisease;
     }
 
-    public List<Disease> getDiseases() {
-        return diseases;
+    public Disease getDiseaseRegsitry() {
+        return diseaseRegsitry;
     }
 
-    public void setDiseases(List<Disease> diseases) {
-        this.diseases = diseases;
+    public void setDiseaseRegsitry(Disease diseaseRegsitry) {
+        this.diseaseRegsitry = diseaseRegsitry;
     }
 }

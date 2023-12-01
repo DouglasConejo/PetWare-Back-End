@@ -31,17 +31,4 @@ public class DiseaseController {
         diseaseRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/disease/{Id}/pets")
-    public List<Disease> getDisease_RegistryJSON(@PathVariable Long petId) {
-        List<String[]> queryResponse = diseaseRepository.findDisease_registerById(petId);
-        ArrayList<Disease> diseases = new ArrayList<>();
-        queryResponse.forEach(p -> {
-            Disease disease= new Disease();
-            disease.setId(Long.parseLong(p[0]));
-            disease.setDescription((p[1]));
-            disease.setName((p[2]));
-            diseases.add(disease);
-        });
-        return diseases;
-    }
 }

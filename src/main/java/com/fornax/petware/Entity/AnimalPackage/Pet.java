@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fornax.petware.Entity.DevicePackage.Device;
 import com.fornax.petware.Entity.Disease_RegistryPackage.Disease_Registry;
 import com.fornax.petware.Entity.Pet_History.PetHistory;
+import com.fornax.petware.Entity.QuotePackage.Quote;
 import com.fornax.petware.Entity.UserPackage.User;
 import com.fornax.petware.Entity.Vaccine_RegistryPackage.Vaccine_Registry;
 import jakarta.persistence.*;
@@ -45,6 +46,10 @@ public class Pet {
     @JoinColumn(name = "device_id")
     private Device device;
 
+    @OneToMany(mappedBy = "petQuotes",cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "pet-quotes")
+    List<Quote> pet_Quotes = new ArrayList<>();
+
     private String name;
 
     private String specie;
@@ -53,12 +58,13 @@ public class Pet {
 
     private Date date;
 
-    //1 = ENFERMO
-    //2 = SALUDABLE
+    // 0= ENFERMO
+    //1 = SALUDABLE
     private int isSick;
 
     public Pet() {
     }
+
 
     public Pet(long id_pet, String name, String specie, String breed, Date date) {
         this.id = id_pet;
@@ -165,4 +171,6 @@ public class Pet {
     public void setSick(int sick) {
         isSick = sick;
     }
+
+
 }
