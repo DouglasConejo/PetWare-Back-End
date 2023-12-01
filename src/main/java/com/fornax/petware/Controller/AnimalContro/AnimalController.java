@@ -118,10 +118,12 @@ public class AnimalController {
         });
         return ResponseEntity.ok(animalDetailList);
     }
+
     private String[] getDeviceCoordinates(Device device) {
         try {
             String aioKey = this.adafruitKey;
             String feedURL = this.FeedBaseUrl + "/" + device.getUbication();
+            System.out.println(feedURL);
             URI url = URI.create(feedURL);
             HttpRequest request = HttpRequest.newBuilder(url).header("X-AIO-KEY", aioKey).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

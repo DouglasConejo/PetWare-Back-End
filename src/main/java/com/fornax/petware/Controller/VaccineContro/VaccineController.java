@@ -25,6 +25,13 @@ public class VaccineController {
         vaccineRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
+
+    @GetMapping("/vaccine")
+    public List<Vaccine> listVaccines() {
+        return vaccineRepository.findAll();
+    }
+
     @GetMapping("/vaccine/{Id}/pets")
     public List<Vaccine> getDisease_RegistryJSON(@PathVariable Long petId) {
         List<String[]> queryResponse = vaccineRepository.findVaccineregisterById(petId);
