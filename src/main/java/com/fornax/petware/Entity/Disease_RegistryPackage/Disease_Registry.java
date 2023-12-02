@@ -1,13 +1,11 @@
 package com.fornax.petware.Entity.Disease_RegistryPackage;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fornax.petware.Entity.AnimalPackage.Pet;
 import com.fornax.petware.Entity.DiseasePackage.Disease;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Proxy;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,20 +28,21 @@ public class Disease_Registry {
     @JsonManagedReference(value = "pet-disease_registries")
     private Pet petDisease;
 
-    @OneToMany(mappedBy = "disease_registry",cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "diseas_fk")
     @JsonManagedReference(value = "disease-registry_disease")
-    List<Disease> diseases = new ArrayList<>();
+    Disease disease;
 
     public Disease_Registry() {
     }
 
-    public Disease_Registry(long id, String treatment, Date recovery_date, String description, Pet pet, List<Disease> diseases) {
+    public Disease_Registry(long id, String treatment, Date recovery_date, String description, Pet pet, Disease disease) {
         this.id = id;
         this.treatment = treatment;
         this.recovery_date = recovery_date;
         this.description = description;
         this.petDisease = pet;
-        this.diseases = diseases;
+        this.disease = disease;
     }
 
     public long getId() {
@@ -86,11 +85,11 @@ public class Disease_Registry {
         this.petDisease = petDisease;
     }
 
-    public List<Disease> getDiseases() {
-        return diseases;
+    public Disease getDisease() {
+        return disease;
     }
 
-    public void setDiseases(List<Disease> diseases) {
-        this.diseases = diseases;
+    public void setDisease(Disease diseases) {
+        this.disease = diseases;
     }
 }

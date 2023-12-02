@@ -25,10 +25,7 @@ import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -66,6 +63,7 @@ public class AnimalController {
     @GetMapping("/user/{userId}/pets")
     public List<Pet> getPets(@PathVariable Long userId) {
         List<Pet> pets = animalRepository.findPetDataByUser(userId);
+        System.out.println(pets);
         return pets;
     }
 
@@ -162,28 +160,32 @@ public class AnimalController {
     // 118220722=3
     ////1822298222=2
     ////118220722=1
-    @GetMapping("/countSickPetsThisMonth/{userId}")
-    public ResponseEntity<Long> countSickPetsThisMonthForUser(@PathVariable(value = "userId") Long userId) {
-        Long count = animalRepository.countSickPetsThisMonthForUser(userId);
+    @GetMapping("/countSickPets/{userId}")
+    public ResponseEntity<Object> countSickPets(@PathVariable(value = "userId") Long userId) {
+        Long count = animalRepository.countSickPets(userId);
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
     //Todas las enfermedades con fecha de recuperacion
-    @GetMapping("/totalDiseases/{userId}/{year}")
-    public ResponseEntity<Long> getTotalDiseasesByUserAndYear(@PathVariable Long userId, @PathVariable int year) {
-        Long totalDiseases = animalRepository.getTotalDiseasesByUserAndYear(userId, year);
-        return new ResponseEntity<>(totalDiseases, HttpStatus.OK);
-    }
-    //Todas las enfermedades con fecha de recuperacion y sin fecha de recuperacion
     @GetMapping("/totalDiseases/{userId}")
-    public ResponseEntity<Long> getTotalDiseasesByUser(@PathVariable Long userId) {
-        Long totalDiseases = animalRepository.getTotalDiseasesByUserByYear(userId);
+    public ResponseEntity<Long> getTotalDiseasesByUserAndYear(@PathVariable Long userId) {
+        Long totalDiseases = animalRepository.getTotalDiseasesByUserAndYear(userId);
         return new ResponseEntity<>(totalDiseases, HttpStatus.OK);
     }
 
-    @GetMapping("/mostCommonDisease")
-    public ResponseEntity<List<Object[]>> getMostCommonDisease() {
-        List<Object[]> mostCommonDisease = animalRepository.findMostCommonDisease();
-        return new ResponseEntity<>(mostCommonDisease, HttpStatus.OK);
+    @GetMapping("/mostCommonDisease/{userId}")
+    public ResponseEntity<Map<String, Long>> getMostCommonDisease(@PathVariable(value = "userId") Long userId) {
+        List<Pet> userPets = animalRepository.findPetDataByUser(userId);
+        ArrayList<Long> petIds = new ArrayList<>();
+        userPets.forEach(p -> {
+            petIds.add(p.getId());
+        });
+        List<Object[]> commonDiseaseResponse = animalRepository.findMostCommonDisease(petIds);
+        Map<String, Long> responseObject = new HashMap<String, Long>();
+        commonDiseaseResponse.forEach(o -> {
+            System.out.println(o.toString());
+            responseObject.put((String) o[0], (Long) o[1]);
+        });
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 }

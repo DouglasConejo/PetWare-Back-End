@@ -9,12 +9,10 @@ import com.fornax.petware.Entity.Pet_History.PetHistory;
 import com.fornax.petware.Entity.UserPackage.User;
 import com.fornax.petware.Entity.Vaccine_RegistryPackage.Vaccine_Registry;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Proxy;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "pets")

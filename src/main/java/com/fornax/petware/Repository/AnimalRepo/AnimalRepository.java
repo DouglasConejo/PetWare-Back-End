@@ -21,23 +21,15 @@ public interface AnimalRepository extends JpaRepository<Pet, Long> {
     @Query("SELECT p.user.id, COUNT(p) FROM Pet p WHERE p.user.id = :userId GROUP BY p.user.id")
     List<Object[]> countPetsByUserId(@Param("userId") Long userId);
 
-    @Query("SELECT COUNT(p) FROM Pet p JOIN p.petHistories ph WHERE p.user.id = :userId AND p.isSick = 1 AND FUNCTION('MONTH', ph.date) = FUNCTION('MONTH', CURRENT_DATE)")
-    Long countSickPetsThisMonthForUser(@Param("userId") Long userId);
-
-    @Query("SELECT COUNT(dr) FROM Pet p " +
-            "JOIN p.disease_registries dr " +
-            "WHERE p.user.id = :userId AND FUNCTION('YEAR', dr.recovery_date) = :year")
-    Long getTotalDiseasesByUserAndYear(@Param("userId") Long userId, @Param("year") int year);
+    @Query("SELECT COUNT(p) FROM Pet as p where p.isSick = 1 AND p.user.id = :userId")
+    Long countSickPets(@Param("userId") Long userId);
 
     @Query("SELECT COUNT(dr) FROM Pet p " +
             "JOIN p.disease_registries dr " +
             "WHERE p.user.id = :userId")
-    Long getTotalDiseasesByUserByYear(@Param("userId") Long userId);
+    Long getTotalDiseasesByUserAndYear(@Param("userId") Long userId);
 
 
-    @Query("SELECT d.name, COUNT(d) as count " +
-            "FROM Disease d " +
-            "GROUP BY d.name " +
-            "ORDER BY count DESC")
-    List<Object[]> findMostCommonDisease();
+    @Query("SELECT ds.name, COUNT(d) as count FROM Disease ds LEFT JOIN Disease_Registry d on d.disease.id = ds.id where d.petDisease.id in :petList GROUP BY ds.name ORDER BY count DESC")
+    List<Object[]> findMostCommonDisease(@Param("petList") List<Long> petIds);
 }
