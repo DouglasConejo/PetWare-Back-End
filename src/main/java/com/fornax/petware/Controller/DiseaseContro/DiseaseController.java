@@ -31,4 +31,8 @@ public class DiseaseController {
         diseaseRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
+    @GetMapping("/diseases")
+    public List<Disease> getAllDiseases() {
+        return diseaseRepository.findAll();
+    }
 }
