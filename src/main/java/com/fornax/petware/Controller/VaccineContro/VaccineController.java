@@ -16,6 +16,11 @@ public class VaccineController {
     @Autowired
     VaccineRepository vaccineRepository;
 
+    @GetMapping("/vaccine")
+    public List<Vaccine> getAllVaccines() {
+        return vaccineRepository.findAll();
+    }
+
     @PostMapping("vaccine_add")
     public Vaccine addVaccineRegistry(@RequestBody Vaccine vaccine) {
         return vaccineRepository.save(vaccine);

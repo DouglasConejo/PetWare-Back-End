@@ -63,7 +63,6 @@ public class AnimalController {
     @GetMapping("/user/{userId}/pets")
     public List<Pet> getPets(@PathVariable Long userId) {
         List<Pet> pets = animalRepository.findPetDataByUser(userId);
-        System.out.println(pets);
         return pets;
     }
 
@@ -122,7 +121,6 @@ public class AnimalController {
         try {
             String aioKey = this.adafruitKey;
             String feedURL = this.FeedBaseUrl + "/" + device.getUbication();
-            System.out.println(feedURL);
             URI url = URI.create(feedURL);
             HttpRequest request = HttpRequest.newBuilder(url).header("X-AIO-KEY", aioKey).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -180,12 +178,13 @@ public class AnimalController {
         userPets.forEach(p -> {
             petIds.add(p.getId());
         });
-        List<Object[]> commonDiseaseResponse = animalRepository.findMostCommonDisease(petIds);
+        List<String[]> commonDiseaseResponse = animalRepository.findMostCommonDisease(petIds);
         Map<String, Long> responseObject = new HashMap<String, Long>();
         commonDiseaseResponse.forEach(o -> {
-            System.out.println(o.toString());
-            responseObject.put((String) o[0], (Long) o[1]);
+            System.out.println(o[0]);
+            responseObject.put(o[0], Long.parseLong(o[1]));
         });
+        System.out.println(commonDiseaseResponse);
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 }

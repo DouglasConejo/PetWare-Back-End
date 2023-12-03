@@ -30,6 +30,6 @@ public interface AnimalRepository extends JpaRepository<Pet, Long> {
     Long getTotalDiseasesByUserAndYear(@Param("userId") Long userId);
 
 
-    @Query("SELECT ds.name, COUNT(d) as count FROM Disease ds LEFT JOIN Disease_Registry d on d.disease.id = ds.id where d.petDisease.id in :petList GROUP BY ds.name ORDER BY count DESC")
-    List<Object[]> findMostCommonDisease(@Param("petList") List<Long> petIds);
+    @Query("SELECT ds.name, COUNT(d) as count FROM Disease ds JOIN Disease_Registry d on d.disease.id = ds.id GROUP BY ds.name ORDER BY count DESC")
+    List<String[]> findMostCommonDisease(@Param("petList") List<Long> petIds);
 }
