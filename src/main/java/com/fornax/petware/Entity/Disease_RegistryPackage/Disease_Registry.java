@@ -1,5 +1,6 @@
 package com.fornax.petware.Entity.Disease_RegistryPackage;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fornax.petware.Entity.AnimalPackage.Pet;
 import com.fornax.petware.Entity.DiseasePackage.Disease;
@@ -25,12 +26,12 @@ public class Disease_Registry {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="pet_fk")
-    @JsonManagedReference(value = "pet-disease_registries")
+    @JsonBackReference(value = "pet-disease_registries")
     private Pet petDisease;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diseas_fk")
-    @JsonManagedReference(value = "disease-registry_disease")
+    @JsonBackReference(value = "disease-registry_disease")
     Disease disease;
 
     public Disease_Registry() {

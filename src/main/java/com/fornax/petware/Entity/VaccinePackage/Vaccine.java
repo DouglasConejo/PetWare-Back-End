@@ -15,17 +15,19 @@ public class Vaccine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany(mappedBy = "vaccineRegistry",cascade = CascadeType.ALL)
-    @JsonManagedReference(value = "vaccine-vaccine_registries")
-    List<Vaccine_Registry> vaccine_registries = new ArrayList<>();
     private String description;
 
     private String name;
+
+    @OneToMany(mappedBy = "vaccine")
+    @JsonManagedReference(value = "vaccine_registry_reference")
+    private List<Vaccine_Registry> vaccines;
 
     public Vaccine() {
     }
 
     public Vaccine(long id, String description, String name) {
+        super();
         this.id = id;
         this.description = description;
         this.name = name;
@@ -55,5 +57,13 @@ public class Vaccine {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Vaccine_Registry> getVaccines() {
+        return vaccines;
+    }
+
+    public void setVaccines(List<Vaccine_Registry> vaccines) {
+        this.vaccines = vaccines;
     }
 }
