@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fornax.petware.Entity.DevicePackage.Device;
 import com.fornax.petware.Entity.Disease_RegistryPackage.Disease_Registry;
 import com.fornax.petware.Entity.Pet_History.PetHistory;
+import com.fornax.petware.Entity.QuotePackage.Quote;
 import com.fornax.petware.Entity.UserPackage.User;
 import com.fornax.petware.Entity.Vaccine_RegistryPackage.Vaccine_Registry;
 import jakarta.persistence.*;
@@ -43,6 +44,10 @@ public class Pet {
     @JsonManagedReference(value = "pet_vaccine_registry")
     private List<Vaccine_Registry> vaccines;
 
+    @OneToMany(mappedBy = "quotePet",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    List<Quote> quotes = new ArrayList<>();
+
     private String name;
 
     private String specie;
@@ -58,7 +63,7 @@ public class Pet {
     public Pet() {
     }
 
-    public Pet(long id, User user, List<PetHistory> petHistories, List<Disease_Registry> disease_registries, Device device, List<Vaccine_Registry> vaccines, String name, String specie, String breed, Date date, int isSick) {
+    public Pet(long id, User user,List<Quote> quotesPets, List<PetHistory> petHistories, List<Disease_Registry> disease_registries, Device device, List<Vaccine_Registry> vaccines, String name, String specie, String breed, Date date, int isSick) {
         this.id = id;
         this.user = user;
         this.petHistories = petHistories;
@@ -70,6 +75,7 @@ public class Pet {
         this.breed = breed;
         this.date = date;
         this.isSick = isSick;
+        this.quotes=quotesPets;
     }
 
     public Pet(long idPet, String name, String specie, String breed, Date date, User user, Device device) {

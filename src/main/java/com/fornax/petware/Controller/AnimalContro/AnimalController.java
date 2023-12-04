@@ -191,6 +191,7 @@ public class AnimalController {
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 
+    //Mascotas enfermas por mes
     @GetMapping("/sick-pets-per-month/{userId}")
     public Map<String, Integer> getSickPetsPerMonth(@PathVariable Long userId) {
         List<Object[]> result = animalRepository.findSickPetsPerMonthByUser2(userId);
@@ -198,6 +199,11 @@ public class AnimalController {
         Map<String, Integer> formattedResult = new LinkedHashMap<>();
         DateFormatSymbols dfs = new DateFormatSymbols(Locale.ENGLISH);
         String[] months = dfs.getMonths();
+
+        // Inicializar el mapa con ceros para todos los meses
+        for (String month : months) {
+            formattedResult.put(month, 0);
+        }
 
         for (Object[] entry : result) {
             int monthNumber = (int) entry[0];
