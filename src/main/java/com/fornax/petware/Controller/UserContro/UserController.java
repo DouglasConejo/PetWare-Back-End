@@ -46,7 +46,6 @@ public class UserController {
 
     @GetMapping("user/{email}")
     public ResponseEntity<User> findUserByEmail(@PathVariable(value = "email") String email) {
-        System.out.println("Hello world " + email);
         Optional<User> user = Optional.ofNullable(userRepository.findByEmail(email));
 
         if (user.isPresent()) {

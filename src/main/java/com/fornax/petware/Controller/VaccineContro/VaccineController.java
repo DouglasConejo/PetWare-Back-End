@@ -16,6 +16,11 @@ public class VaccineController {
     @Autowired
     VaccineRepository vaccineRepository;
 
+    @GetMapping("/vaccine")
+    public List<Vaccine> getAllVaccines() {
+        return vaccineRepository.findAll();
+    }
+
     @PostMapping("vaccine_add")
     public Vaccine addVaccineRegistry(@RequestBody Vaccine vaccine) {
         return vaccineRepository.save(vaccine);
@@ -24,18 +29,5 @@ public class VaccineController {
     public ResponseEntity<?> deleteVaccine(@PathVariable(value = "id") Long id) {
         vaccineRepository.deleteById(id);
         return ResponseEntity.ok().build();
-    }
-    @GetMapping("/vaccine/{Id}/pets")
-    public List<Vaccine> getDisease_RegistryJSON(@PathVariable Long petId) {
-        List<String[]> queryResponse = vaccineRepository.findVaccineregisterById(petId);
-        ArrayList<Vaccine> vaccines= new ArrayList<>();
-        queryResponse.forEach(p -> {
-            Vaccine vaccine= new Vaccine();
-            vaccine.setId(Long.parseLong(p[0]));
-            vaccine.setDescription((p[1]));
-            vaccine.setName((p[2]));
-            vaccines.add(vaccine);
-        });
-        return vaccines;
     }
 }

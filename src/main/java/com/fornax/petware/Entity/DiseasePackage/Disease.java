@@ -1,9 +1,12 @@
 package com.fornax.petware.Entity.DiseasePackage;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fornax.petware.Entity.Disease_RegistryPackage.Disease_Registry;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Proxy;
+
+import java.util.List;
 
 @Entity
 @Proxy(lazy = false)
@@ -17,10 +20,9 @@ public class Disease {
 
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="disease_registry_fk")
-    @JsonBackReference(value = "disease-registry_disease")
-    private Disease_Registry disease_registry;
+    @OneToMany(mappedBy = "disease", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "disease-registry_disease")
+    private List<Disease_Registry> disease_registry;
 
     public Disease() {
     }
@@ -49,11 +51,11 @@ public class Disease {
         this.description = description;
     }
 
-    public Disease_Registry getDisease_registry() {
+    public List<Disease_Registry> getDisease_registry() {
         return disease_registry;
     }
 
-    public void setDisease_registry(Disease_Registry disease_registry) {
+    public void setDisease_registry(List<Disease_Registry> disease_registry) {
         this.disease_registry = disease_registry;
     }
 }

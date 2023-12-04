@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,10 +25,8 @@ import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.text.DateFormatSymbols;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,8 +68,7 @@ public class AnimalController {
     }
 
     @GetMapping("pets/{id}")
-    public
-    Optional<Pet> getPet(@PathVariable(value = "id") Long id) {
+    public Optional<Pet> getPet(@PathVariable(value = "id") Long id) {
         return animalRepository.findById(id);
     }
 
@@ -78,6 +76,7 @@ public class AnimalController {
     public Pet addPet(@RequestBody Pet pet) {
         return animalRepository.save(pet);
     }
+
     @DeleteMapping("/pet/{id}")
     public ResponseEntity<?> deletePet(@PathVariable(value = "id") Long id) {
         animalRepository.deleteById(id);
@@ -118,6 +117,7 @@ public class AnimalController {
         });
         return ResponseEntity.ok(animalDetailList);
     }
+
     private String[] getDeviceCoordinates(Device device) {
         try {
             String aioKey = this.adafruitKey;
@@ -138,8 +138,81 @@ public class AnimalController {
     }
 
     public static String[] getCoordinatesLastValue(String lastValue) {
-            // Split the lastValue into two parts using the "|" character
-            String[] values = lastValue.split("\\|");
-            return values;
+        // Split the lastValue into two parts using the "|" character
+        String[] values = lastValue.split("\\|");
+        return values;
     }
+
+    //Mostrar cantidad de mascotas por usuario
+    @GetMapping("/countPetsByUser/{userId}")
+    public ResponseEntity<Long> countPetsByUser(@PathVariable(value = "userId") Long userId) {
+        List<Object[]> result = animalRepository.countPetsByUserId(userId);
+
+        // Verifica si hay resultados y devuelve el conteo
+        if (!result.isEmpty()) {
+            Long count = (Long) result.get(0)[1];
+            return new ResponseEntity<>(count, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(0L, HttpStatus.OK); // o puedes devolver HttpStatus.NOT_FOUND
+        }
+    }
+
+    //ID de pruebas:
+    // 118220722=3
+    ////1822298222=2
+    ////118220722=1
+    @GetMapping("/countSickPets/{userId}")
+    public ResponseEntity<Object> countSickPets(@PathVariable(value = "userId") Long userId) {
+        Long count = animalRepository.countSickPets(userId);
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    //Todas las enfermedades con fecha de recuperacion
+    @GetMapping("/totalDiseases/{userId}")
+    public ResponseEntity<Long> getTotalDiseasesByUserAndYear(@PathVariable Long userId) {
+        Long totalDiseases = animalRepository.getTotalDiseasesByUserAndYear(userId);
+        return new ResponseEntity<>(totalDiseases, HttpStatus.OK);
+    }
+
+    @GetMapping("/mostCommonDisease/{userId}")
+    public ResponseEntity<Map<String, Long>> getMostCommonDisease(@PathVariable(value = "userId") Long userId) {
+        List<Pet> userPets = animalRepository.findPetDataByUser(userId);
+        ArrayList<Long> petIds = new ArrayList<>();
+        userPets.forEach(p -> {
+            petIds.add(p.getId());
+        });
+        List<String[]> commonDiseaseResponse = animalRepository.findMostCommonDisease(petIds);
+        Map<String, Long> responseObject = new HashMap<String, Long>();
+        commonDiseaseResponse.forEach(o -> {
+            System.out.println(o[0]);
+            responseObject.put(o[0], Long.parseLong(o[1]));
+        });
+        System.out.println(commonDiseaseResponse);
+        return new ResponseEntity<>(responseObject, HttpStatus.OK);
+    }
+
+    //Mascotas enfermas por mes
+    @GetMapping("/sick-pets-per-month/{userId}")
+    public Map<String, Integer> getSickPetsPerMonth(@PathVariable Long userId) {
+        List<Object[]> result = animalRepository.findSickPetsPerMonthByUser2(userId);
+
+        Map<String, Integer> formattedResult = new LinkedHashMap<>();
+        DateFormatSymbols dfs = new DateFormatSymbols(Locale.ENGLISH);
+        String[] months = dfs.getMonths();
+
+        // Inicializar el mapa con ceros para todos los meses
+        for (String month : months) {
+            formattedResult.put(month, 0);
+        }
+
+        for (Object[] entry : result) {
+            int monthNumber = (int) entry[0];
+            String monthName = months[monthNumber - 1]; // Indices de 0 a 11
+
+            formattedResult.put(monthName, ((Number) entry[1]).intValue());
+        }
+
+        return formattedResult;
+    }
+
 }

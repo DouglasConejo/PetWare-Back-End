@@ -4,15 +4,16 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fornax.petware.Entity.DevicePackage.Device;
+import com.fornax.petware.Entity.Disease_RegistryPackage.Disease_Registry;
 import com.fornax.petware.Entity.Pet_History.PetHistory;
+import com.fornax.petware.Entity.QuotePackage.Quote;
 import com.fornax.petware.Entity.UserPackage.User;
+import com.fornax.petware.Entity.Vaccine_RegistryPackage.Vaccine_Registry;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Proxy;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "pets")
@@ -31,9 +32,21 @@ public class Pet {
     @JsonManagedReference(value = "pet-petHistory")
     List<PetHistory> petHistories = new ArrayList<>();
 
+    @OneToMany(mappedBy = "petDisease",cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "pet-disease_registries")
+    List<Disease_Registry> disease_registries = new ArrayList<>();
+
     @OneToOne(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @JoinColumn(name = "device_id")
     private Device device;
+
+    @OneToMany(mappedBy = "pet")
+    @JsonManagedReference(value = "pet_vaccine_registry")
+    private List<Vaccine_Registry> vaccines;
+
+    @OneToMany(mappedBy = "quotePet",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    List<Quote> quotes = new ArrayList<>();
 
     private String name;
 
@@ -43,34 +56,53 @@ public class Pet {
 
     private Date date;
 
+    //1 = ENFERMO
+    //2 = SALUDABLE
+    private int isSick;
+
     public Pet() {
     }
 
-    public Pet(long id_pet, String name, String specie, String breed, Date date) {
-        this.id = id_pet;
-        this.name = name;
-        this.specie = specie;
-        this.breed = breed;
-        this.date = date;
-    }
-
-    public Pet(long id_pet, User user, String name, String specie, String breed, Date date) {
-        this.id = id_pet;
+    public Pet(long id, User user,List<Quote> quotesPets, List<PetHistory> petHistories, List<Disease_Registry> disease_registries, Device device, List<Vaccine_Registry> vaccines, String name, String specie, String breed, Date date, int isSick) {
+        this.id = id;
         this.user = user;
-        this.name = name;
-        this.specie = specie;
-        this.breed = breed;
-        this.date = date;
-    }
-
-    public Pet(long id_pet, String name, String specie, String breed, Date date, User user, Device device) {
-        this.id = id_pet;
-        this.user = user;
-        this.name = name;
-        this.specie = specie;
-        this.breed = breed;
-        this.date = date;
+        this.petHistories = petHistories;
+        this.disease_registries = disease_registries;
         this.device = device;
+        this.vaccines = vaccines;
+        this.name = name;
+        this.specie = specie;
+        this.breed = breed;
+        this.date = date;
+        this.isSick = isSick;
+        this.quotes=quotesPets;
+    }
+
+    public Pet(long idPet, String name, String specie, String breed, Date date, User user, Device device) {
+        super();
+        this.id = idPet;
+        this.name = name;
+        this.specie = specie;
+        this.breed = breed;
+        this.date = date;
+    }
+
+    public Pet(long idPet, String name, String specie, String breed, Date date) {
+        super();
+        this.id = idPet;
+        this.name = name;
+        this.specie = specie;
+        this.breed = breed;
+        this.date = date;
+    }
+
+    public Pet(long idPet, User user, String name, String specie, String breed, Date date) {
+        super();
+        this.id = idPet;
+        this.name = name;
+        this.specie = specie;
+        this.breed = breed;
+        this.date = date;
     }
 
     public long getId() {
@@ -127,5 +159,45 @@ public class Pet {
 
     public void setDevice(Device device) {
         this.device = device;
+    }
+
+    public int isSick() {
+        return isSick;
+    }
+
+    public void setSick(int sick) {
+        isSick = sick;
+    }
+
+    public List<PetHistory> getPetHistories() {
+        return petHistories;
+    }
+
+    public void setPetHistories(List<PetHistory> petHistories) {
+        this.petHistories = petHistories;
+    }
+
+    public List<Disease_Registry> getDisease_registries() {
+        return disease_registries;
+    }
+
+    public void setDisease_registries(List<Disease_Registry> disease_registries) {
+        this.disease_registries = disease_registries;
+    }
+
+    public List<Vaccine_Registry> getVaccines() {
+        return vaccines;
+    }
+
+    public void setVaccines(List<Vaccine_Registry> vaccines) {
+        this.vaccines = vaccines;
+    }
+
+    public int getIsSick() {
+        return isSick;
+    }
+
+    public void setIsSick(int isSick) {
+        this.isSick = isSick;
     }
 }
