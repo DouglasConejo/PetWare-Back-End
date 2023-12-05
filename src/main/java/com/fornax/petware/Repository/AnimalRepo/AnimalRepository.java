@@ -1,11 +1,13 @@
 package com.fornax.petware.Repository.AnimalRepo;
 
 import com.fornax.petware.Entity.AnimalPackage.Pet;
+import com.fornax.petware.Entity.Disease_RegistryPackage.MonthlySickPetsDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AnimalRepository extends JpaRepository<Pet, Long> {
 
@@ -32,4 +34,23 @@ public interface AnimalRepository extends JpaRepository<Pet, Long> {
 
     @Query("SELECT ds.name, COUNT(d) as count FROM Disease ds JOIN Disease_Registry d on d.disease.id = ds.id GROUP BY ds.name ORDER BY count DESC")
     List<String[]> findMostCommonDisease(@Param("petList") List<Long> petIds);
+
+    @Query("SELECT MONTH(COALESCE(dr.recovery_date, pet.date)) as month, COUNT(pet.id) as numPets " +
+            "FROM Pet pet " +
+            "LEFT JOIN pet.disease_registries dr " +
+            "WHERE pet.user.id = :userId " +
+            "GROUP BY MONTH(COALESCE(dr.recovery_date, pet.date))")
+    List<String[]> findSickPetsPerMonthByUser(@Param("userId") Long userId);
+
+
+    @Query("SELECT MONTH(COALESCE(dr.recovery_date, pet.date)) as month, COUNT(pet.id) as numPets " +
+            "FROM Pet pet " +
+            "LEFT JOIN pet.disease_registries dr " +
+            "WHERE pet.user.id = :userId " +
+            "AND pet.isSick = 1 " +
+            "GROUP BY MONTH(COALESCE(dr.recovery_date, pet.date))" +
+            "ORDER BY MONTH(COALESCE(dr.recovery_date, pet.date)) ASC")
+    List<Object[]> findSickPetsPerMonthByUser2(@Param("userId") Long userId);
+
+
 }

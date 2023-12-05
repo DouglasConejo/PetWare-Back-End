@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Disease_RegistryRepository extends JpaRepository<Disease_Registry, Long> {
     @Query("SELECT D.id, D.description, D.treatment, D.recovery_date, ds.name FROM Disease_Registry D JOIN Disease ds ON ds.id = D.disease.id WHERE D.petDisease.id = :petId")
