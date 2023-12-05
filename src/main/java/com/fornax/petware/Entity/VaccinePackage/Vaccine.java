@@ -26,11 +26,12 @@ public class Vaccine {
     public Vaccine() {
     }
 
-    public Vaccine(long id, String description, String name) {
+    public Vaccine(long id, String description, String name, List<Vaccine_Registry> vaccines) {
         super();
         this.id = id;
         this.description = description;
         this.name = name;
+        this.vaccines = vaccines;
     }
 
     public long getId() {

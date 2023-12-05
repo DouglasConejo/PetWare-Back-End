@@ -51,8 +51,6 @@ public class Vaccine_Registry {
         this.id = id;
     }
 
-
-
     public String getDescription() {
         return description;
     }
