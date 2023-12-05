@@ -64,6 +64,7 @@ public class Pet {
     }
 
     public Pet(long id, User user,List<Quote> quotesPets, List<PetHistory> petHistories, List<Disease_Registry> disease_registries, Device device, List<Vaccine_Registry> vaccines, String name, String specie, String breed, Date date, int isSick) {
+        super();
         this.id = id;
         this.user = user;
         this.petHistories = petHistories;
