@@ -53,4 +53,14 @@ public interface AnimalRepository extends JpaRepository<Pet, Long> {
     List<Object[]> findSickPetsPerMonthByUser2(@Param("userId") Long userId);
 
 
+    @Query("SELECT MONTH(dr.recovery_date) as month, COUNT(dr.id)\n" +
+            "FROM Disease_Registry dr\n" +
+            "JOIN dr.petDisease p\n" +
+            "WHERE p.user.id = :userId\n" +
+            "GROUP BY month\n" +
+            "ORDER BY MONTH(dr.recovery_date) ASC")
+    List<Object[]> findSickPetsPerMonthByUser3(@Param("userId") Long userId);
+
+
+
 }

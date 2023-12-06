@@ -194,7 +194,7 @@ public class AnimalController {
     //Mascotas enfermas por mes
     @GetMapping("/sick-pets-per-month/{userId}")
     public Map<String, Integer> getSickPetsPerMonth(@PathVariable Long userId) {
-        List<Object[]> result = animalRepository.findSickPetsPerMonthByUser2(userId);
+        List<Object[]> result = animalRepository.findSickPetsPerMonthByUser3(userId);
 
         Map<String, Integer> formattedResult = new LinkedHashMap<>();
         DateFormatSymbols dfs = new DateFormatSymbols(Locale.ENGLISH);
