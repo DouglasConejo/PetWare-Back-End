@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,7 +33,7 @@ public class QuoteController {
 
         List<Object[]> rawQuotes = quoteRepository.findQuotesByUser(userId);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy HH:mm ");
 
         List<QuoteDTO> quotes = rawQuotes.stream()
                 .map(result -> {
@@ -46,7 +47,7 @@ public class QuoteController {
 
                     String date = "";
                     if(timestampMillis != null) {
-                        date = dateFormat.format(new java.util.Date(timestampMillis));
+                        date = dateFormat.format(new Date(timestampMillis));
                     }
 
                     String location = (String) result[1];
