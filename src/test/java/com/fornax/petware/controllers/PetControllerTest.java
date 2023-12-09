@@ -60,6 +60,7 @@ public class PetControllerTest {
         result.setId(id);
         result.setBreed("Español");
         result.setSpecie("Toro");
+        result.setSick(1);
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         Date date = formatter.parse("2023-11-15T21:21:36.033+00:00");
@@ -68,7 +69,7 @@ public class PetControllerTest {
         Mockito.when(petService.addPet(Mockito.any(Pet.class))).thenReturn(result);
 
         this.mockMvc
-                .perform(post("/").content(asJsonString(newPet)).contentType(MediaType.APPLICATION_JSON)
+                .perform(post("/pets").content(asJsonString(newPet)).contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andDo(print())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", is(notNullValue())))

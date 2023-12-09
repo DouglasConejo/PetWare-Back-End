@@ -47,7 +47,7 @@ public class DeviceControllerTest {
     }
 
     @Test
-    void whenSubmitPet_thenPetIdIsGenerated() throws Exception {
+    void whenSubmitDevice_thenDeviceIdIsGenerated() throws Exception {
 
         Device device = new Device();
         device.setSerialNumber(1224634);

@@ -26,6 +26,7 @@ public class PetService {
         pet.setName("Marco");
         pet.setSpecie("Toro");
         pet.setBreed("Español");
+        pet.setSick(1);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         Date date = formatter.parse("2023-11-15T21:21:36.033+00:00");
         pet.setDate(date);
